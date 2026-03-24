@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Roboto, Inter } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -19,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={roboto.className}>
+    <html lang="en" className={cn(roboto.className, "font-sans", inter.variable)}>
       <body>{children}</body>
     </html>
   );
