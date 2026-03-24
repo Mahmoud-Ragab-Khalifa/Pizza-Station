@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Roboto, Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-
-const roboto = Roboto({subsets:['latin'],variable:'--font-sans'});
+import Header from "@/components/Header";
 
 const roboto = Roboto({
   subsets: ["latin"],
+  variable: "--font-sans",
   weight: ["400", "500", "700"],
   preload: true,
 });
@@ -22,8 +22,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn(roboto.className, "font-sans", roboto.variable)}>
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={cn(roboto.className, "font-sans", roboto.variable)}
+    >
+      <body>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
