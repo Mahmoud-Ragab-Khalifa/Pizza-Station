@@ -1,10 +1,11 @@
 "use client";
 
-import { Menu, Sun } from "lucide-react";
+import { Menu, Sun, XIcon } from "lucide-react";
 import Link from "../Link";
 import { NAV_LINKS } from "@/constants/navigation";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { useState } from "react";
+import { Pages, Routes } from "@/constants/enums";
 
 const Navbar = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -18,7 +19,7 @@ const Navbar = () => {
           <li key={href}>
             <Link
               href={href}
-              className="px-4 block md:px-3 py-2 font-semibold text-accent hover:text-primary transition-colors duration-300"
+              className={`px-4 block md:px-3 py-2 font-semibold ${href === `${Routes.AUTH}${Pages.LOGIN}` ? `${buttonVariants({ size: "lg" })} px-8! mx-4 md:m-0` : "text-accent hover:text-primary transition-colors duration-300"}`}
             >
               {title}
             </Link>
@@ -41,8 +42,13 @@ const Navbar = () => {
         size={"icon"}
         className="text-accent md:hidden rounded-md"
         onClick={() => setIsOpenMenu(!isOpenMenu)}
+        aria-label="Menu Icon"
       >
-        <Menu />
+        {isOpenMenu ? (
+          <XIcon className="w-5! h-5!" />
+        ) : (
+          <Menu className="w-5! h-5!" />
+        )}
       </Button>
     </nav>
   );
