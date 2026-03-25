@@ -1,0 +1,37 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { formatCurrency } from "@/lib/formatCurrency";
+import Image from "next/image";
+import AddToCartButton from "./AddToCartButton";
+
+const MenuItem = ({ item }: { item: any }) => {
+  const { id, image, name, basePrice, description } = item;
+
+  return (
+    <div
+      className="menuItem p-5 bg-card border border-border rounded-xl shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-300"
+      key={id}
+    >
+      <Image
+        src={image}
+        alt={name}
+        width={192}
+        height={192}
+        className="mx-auto"
+      />
+
+      <div className="flex items-center justify-between my-5">
+        <h4 className="font-semibold text-xl">{name}</h4>
+
+        <strong className="text-accent">{formatCurrency(basePrice)}</strong>
+      </div>
+
+      <p className="text-accent text-center text-sm line-clamp-3">
+        {description}
+      </p>
+
+      <AddToCartButton />
+    </div>
+  );
+};
+
+export default MenuItem;
