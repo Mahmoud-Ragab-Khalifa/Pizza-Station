@@ -57,9 +57,9 @@
   --primary-foreground: oklch(0.98 0.016 73.684);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.96 0.002 17.2);
+  --muted: oklch(81.809% 0.00558 16.354);
   --muted-foreground: oklch(0.547 0.021 43.1);
-  --accent: oklch(0.96 0.002 17.2);
+  --accent: oklch(0.467 0.043 264.9);
   --accent-foreground: oklch(0.214 0.009 43.1);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0.005 34.3);
@@ -94,9 +94,9 @@
   --primary-foreground: oklch(0.98 0.016 73.684);
   --secondary: oklch(0.274 0.006 286.033);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.268 0.011 36.5);
+  --muted: oklch(23.259% 0.00362 48.285);
   --muted-foreground: oklch(0.714 0.014 41.2);
-  --accent: oklch(0.268 0.011 36.5);
+  --accent: oklch(64.972% 0.01508 34.065);
   --accent-foreground: oklch(0.986 0.002 67.8);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
@@ -154,4 +154,35 @@ html[lang="ar"] div[role="dialog"] button {
 html[lang="en"] div[role="dialog"] button {
   left: auto !important;
   right: 24px !important;
+}
+
+/* ANIMATIONS  */
+
+.animate-fade-in-lg {
+  animation: fade-in 0.8s ease-out both;
+}
+
+.animate-fade-in-md {
+  animation: fade-in 0.5s ease-out both;
+}
+
+.animate-fade-in-sm {
+  animation: fade-in 0.3s ease-out both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

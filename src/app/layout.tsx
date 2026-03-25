@@ -7,7 +7,7 @@ import Header from "@/components/Header";
 const roboto = Roboto({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["400", "500", "700"],
+  weight: ["400", "500", "600", "700"],
   preload: true,
 });
 
