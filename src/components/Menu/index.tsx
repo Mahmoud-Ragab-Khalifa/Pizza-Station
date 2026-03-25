@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import MenuItem from "../BestSellers/MenuItem";
+import MenuItem from "./MenuItem";
 
 const Menu = ({ items }: { items: any }) => {
   return (
