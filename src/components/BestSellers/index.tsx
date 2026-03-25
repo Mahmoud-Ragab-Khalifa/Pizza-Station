@@ -1,6 +1,7 @@
 import Image from "next/image";
 import MainHeading from "../MainHeading";
 import { Button } from "../ui/button";
+import { formatCurrency } from "@/lib/formatCurrency";
 
 const bestSellersList = [
   {
@@ -52,7 +53,9 @@ const BestSellers = () => {
                 <div className="flex items-center justify-between my-5">
                   <h4 className="font-semibold text-xl">{name}</h4>
 
-                  <strong className="text-accent">{basePrice}</strong>
+                  <strong className="text-accent">
+                    {formatCurrency(basePrice)}
+                  </strong>
                 </div>
 
                 <p className="text-accent text-center">{description}</p>
