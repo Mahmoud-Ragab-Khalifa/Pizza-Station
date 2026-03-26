@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -11,6 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Image from "next/image";
+import PickSize from "./PickSize";
 
 const AddToCartButton = ({ item }: { item: any }) => {
   const { id, image, name, basePrice, description } = item;
@@ -39,12 +39,16 @@ const AddToCartButton = ({ item }: { item: any }) => {
         </DialogHeader>
 
         <div className="-mx-4 no-scrollbar max-h-[30vh] overflow-y-auto px-4 space-y-10">
-          <div className="text-center">Pick Your Pizza</div>
+          <PickSize item={item} />
+
           <div className="text-center">Any Extras?</div>
         </div>
 
         <DialogFooter>
-          <Button className="w-full rounded-xl">Add To Cart $10.99</Button>
+          <Button className="w-full rounded-xl">
+            <span>Add To Cart</span>
+            <strong>$10.99</strong>
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
