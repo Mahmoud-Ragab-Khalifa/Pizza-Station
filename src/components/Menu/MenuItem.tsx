@@ -29,7 +29,7 @@ const MenuItem = ({ item }: { item: any }) => {
         {description}
       </p>
 
-      <AddToCartButton />
+      <AddToCartButton item={item} />
     </div>
   );
 };
