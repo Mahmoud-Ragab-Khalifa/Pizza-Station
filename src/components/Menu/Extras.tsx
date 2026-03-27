@@ -1,6 +1,9 @@
+"use client";
+
 import { formatCurrency } from "@/lib/formatCurrency";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
+import { useState } from "react";
 
 const extras = [
   { id: crypto.randomUUID(), name: "Chesse", price: 2 },
@@ -9,6 +12,8 @@ const extras = [
 ];
 
 const Extras = () => {
+  const [active, setActive] = useState<string[]>([]);
+
   return (
     <div>
       <p className="text-center font-bold text-lg mb-4">Any Extras?</p>
@@ -17,9 +22,19 @@ const Extras = () => {
         {extras.map(({ id, name, price }) => (
           <div
             key={id}
-            className="flex items-center gap-2 p-3 border rounded-md"
+            className={`flex items-center gap-2 p-3 rounded-md border transition-colors duration-300 
+              ${active.includes(name) ? "border-primary/50" : "border-muted/50"}`}
           >
-            <Checkbox id={name} name={name} />
+            <Checkbox
+              id={name}
+              name={name}
+              checked={active.includes(name)}
+              onCheckedChange={(checked) =>
+                checked
+                  ? setActive([...active, name])
+                  : setActive(active.filter((item) => item !== name))
+              }
+            />
 
             <Label htmlFor={name} className="mt-0.5 w-full cursor-pointer">
               <span className="font-medium">{name}</span>

@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+"use client";
+
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatCurrency } from "@/lib/formatCurrency";
+import { useState } from "react";
 
 const sizes = [
   { id: crypto.randomUUID(), name: "Small", price: 0 },
@@ -10,15 +14,17 @@ const sizes = [
 ];
 
 const PickSize = ({ item }: { item: any }) => {
+  const [active, setActive] = useState(sizes[0].name);
+
   return (
     <div>
       <p className="text-center font-bold text-lg mb-4">Pick Your Pizza</p>
 
-      <RadioGroup defaultValue={sizes[0].name}>
+      <RadioGroup value={active} onValueChange={setActive}>
         {sizes.map(({ id, name, price }) => (
           <div
             key={id}
-            className="flex items-center gap-2 p-3 border rounded-md"
+            className={`flex items-center gap-2 p-3 rounded-md border transition-colors duration-300 ${active === name ? "border-primary/50" : "border-muted/50"}`}
           >
             <RadioGroupItem value={name} id={name} />
 
