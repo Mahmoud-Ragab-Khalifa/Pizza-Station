@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import Image from "next/image";
 import PickSize from "./PickSize";
+import Extras from "./Extras";
 
 const AddToCartButton = ({ item }: { item: any }) => {
   const { id, image, name, basePrice, description } = item;
@@ -41,7 +42,7 @@ const AddToCartButton = ({ item }: { item: any }) => {
         <div className="-mx-4 no-scrollbar max-h-[30vh] overflow-y-auto px-4 space-y-10">
           <PickSize item={item} />
 
-          <div className="text-center">Any Extras?</div>
+          <Extras />
         </div>
 
         <DialogFooter>

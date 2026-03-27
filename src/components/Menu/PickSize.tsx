@@ -12,7 +12,7 @@ const sizes = [
 const PickSize = ({ item }: { item: any }) => {
   return (
     <div>
-      <p className="text-center mb-4">Pick Your Pizza</p>
+      <p className="text-center font-bold text-lg mb-4">Pick Your Pizza</p>
 
       <RadioGroup defaultValue={sizes[0].name}>
         {sizes.map(({ id, name, price }) => (
@@ -23,7 +23,7 @@ const PickSize = ({ item }: { item: any }) => {
             <RadioGroupItem value={name} id={name} />
 
             <Label htmlFor={name} className="mt-0.5 w-full cursor-pointer">
-              <span>{name}</span>
+              <span className="font-medium">{name}</span>
               <strong>{formatCurrency(price + item.basePrice)}</strong>
             </Label>
           </div>
