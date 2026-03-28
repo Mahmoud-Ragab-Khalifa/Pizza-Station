@@ -3,6 +3,7 @@ import Link from "../Link";
 import Navbar from "./Navbar";
 import { Button } from "../ui/button";
 import { ShoppingCart, Sun } from "lucide-react";
+import ThemeToggler from "../Theme/ThemeToggler";
 
 const Header = () => {
   return (
@@ -22,13 +23,9 @@ const Header = () => {
             العربية
           </Button>
 
-          <Button
-            variant={"outline"}
-            size={"icon-sm"}
-            className="hidden md:flex rounded-md"
-          >
-            <Sun />
-          </Button>
+          <div className="hidden md:block">
+            <ThemeToggler />
+          </div>
 
           <ShoppingCart className="text-accent" />
         </div>

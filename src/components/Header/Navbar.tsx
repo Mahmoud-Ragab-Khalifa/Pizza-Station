@@ -1,11 +1,12 @@
 "use client";
 
-import { Menu, Sun, XIcon } from "lucide-react";
+import { Menu, XIcon } from "lucide-react";
 import Link from "../Link";
 import { NAV_LINKS } from "@/constants/navigation";
 import { Button, buttonVariants } from "../ui/button";
 import { useState } from "react";
 import { Pages, Routes } from "@/constants/enums";
+import ThemeToggler from "../Theme/ThemeToggler";
 
 const Navbar = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -26,20 +27,18 @@ const Navbar = () => {
           </li>
         ))}
 
-        <div className="flex items-center absolute inset-e-0 bottom-6 gap-4 mx-4  md:hidden md:p-0 md:m-0">
+        <div className="flex items-center absolute inset-e-0 bottom-6 gap-4 mx-4 md:hidden md:p-0 md:m-0">
           <Button variant={"outline"} className="rounded-md">
             العربية
           </Button>
 
-          <Button variant={"outline"} size={"icon-sm"} className="rounded-md">
-            <Sun />
-          </Button>
+          <ThemeToggler />
         </div>
       </ul>
 
       <Button
         variant={"outline"}
-        size={"icon"}
+        size={"icon-sm"}
         className="text-accent md:hidden rounded-md"
         onClick={() => setIsOpenMenu(!isOpenMenu)}
         aria-label="Menu Icon"

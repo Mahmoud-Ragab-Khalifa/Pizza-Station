@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Header from "@/components/Header";
+import { ThemeProvider } from "@/components/Theme/ThemeProvider";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -25,10 +26,19 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn(roboto.className, "font-sans", roboto.variable)}
+      suppressHydrationWarning
     >
       <body>
-        <Header />
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
+
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
