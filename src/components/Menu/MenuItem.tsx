@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { formatCurrency } from "@/lib/formatCurrency";
 import Image from "next/image";
 import AddToCartButton from "./AddToCartButton";
+import { ProductWithRelations } from "@/types/product";
 
-const MenuItem = ({ item }: { item: any }) => {
+const MenuItem = ({ item }: { item: ProductWithRelations }) => {
   const { id, image, name, basePrice, description } = item;
 
   return (

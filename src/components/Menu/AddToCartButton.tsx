@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,8 +11,9 @@ import {
 import Image from "next/image";
 import PickSize from "./PickSize";
 import Extras from "./Extras";
+import { ProductWithRelations } from "@/types/product";
 
-const AddToCartButton = ({ item }: { item: any }) => {
+const AddToCartButton = ({ item }: { item: ProductWithRelations }) => {
   const { id, image, name, basePrice, description } = item;
 
   return (

@@ -1,26 +1,27 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 "use client";
 
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatCurrency } from "@/lib/formatCurrency";
+import { ProductWithRelations } from "@/types/product";
+import { ProductSizes } from "@prisma/client";
 import { useState } from "react";
 
-const sizes = [
-  { id: crypto.randomUUID(), name: "Small", price: 0 },
-  { id: crypto.randomUUID(), name: "Medium", price: 4 },
-  { id: crypto.randomUUID(), name: "Large", price: 8 },
-];
+const PickSize = ({ item }: { item: ProductWithRelations }) => {
+  const { sizes } = item;
 
-const PickSize = ({ item }: { item: any }) => {
-  const [active, setActive] = useState(sizes[0].name);
+  const [active, setActive] = useState<ProductSizes>(sizes[0].name);
 
   return (
     <div>
       <p className="text-center font-bold text-lg mb-4">Pick Your Pizza</p>
 
-      <RadioGroup value={active} onValueChange={setActive}>
+      <RadioGroup
+        value={active}
+        onValueChange={(size: ProductSizes) => {
+          setActive(size);
+        }}
+      >
         {sizes.map(({ id, name, price }) => (
           <div
             key={id}

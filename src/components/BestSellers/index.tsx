@@ -3,7 +3,11 @@ import MainHeading from "../MainHeading";
 import Menu from "../Menu";
 
 const BestSellers = async () => {
-  const bestSellersList = await db.product.findMany();
+  const bestSellersList = await db.product.findMany({
+    include: {
+      sizes: true,
+    },
+  });
 
   return (
     <section className="section-gap">
