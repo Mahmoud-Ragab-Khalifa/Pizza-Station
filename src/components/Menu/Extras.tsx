@@ -4,14 +4,11 @@ import { formatCurrency } from "@/lib/formatCurrency";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import { useState } from "react";
+import { ProductWithRelations } from "@/types/product";
 
-const extras = [
-  { id: crypto.randomUUID(), name: "Chesse", price: 2 },
-  { id: crypto.randomUUID(), name: "Onion", price: 4 },
-  { id: crypto.randomUUID(), name: "Tomato", price: 8 },
-];
+const Extras = ({ item }: { item: ProductWithRelations }) => {
+  const { extras } = item;
 
-const Extras = () => {
   const [active, setActive] = useState<string[]>([]);
 
   return (

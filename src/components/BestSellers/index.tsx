@@ -6,6 +6,7 @@ const BestSellers = async () => {
   const bestSellersList = await db.product.findMany({
     include: {
       sizes: true,
+      extras: true,
     },
   });
 

@@ -14,7 +14,7 @@ import Extras from "./Extras";
 import { ProductWithRelations } from "@/types/product";
 
 const AddToCartButton = ({ item }: { item: ProductWithRelations }) => {
-  const { id, image, name, basePrice, description } = item;
+  const { image, name, description } = item;
 
   return (
     <Dialog>
@@ -42,7 +42,7 @@ const AddToCartButton = ({ item }: { item: ProductWithRelations }) => {
         <div className="-mx-4 no-scrollbar max-h-[30vh] overflow-y-auto px-4 space-y-10">
           <PickSize item={item} />
 
-          <Extras />
+          <Extras item={item} />
         </div>
 
         <DialogFooter>
