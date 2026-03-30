@@ -3,7 +3,7 @@ import Menu from "../Menu";
 import { getBestSellers } from "@/server/db/products";
 
 const BestSellers = async () => {
-  const bestSellersList = await getBestSellers();
+  const bestSellersList = await getBestSellers(3);
 
   return (
     <section className="section-gap">
