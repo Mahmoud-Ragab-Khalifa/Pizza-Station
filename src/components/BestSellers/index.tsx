@@ -1,14 +1,9 @@
-import { db } from "@/lib/prisma";
 import MainHeading from "../MainHeading";
 import Menu from "../Menu";
+import { getBestSellers } from "@/server/db/products";
 
 const BestSellers = async () => {
-  const bestSellersList = await db.product.findMany({
-    include: {
-      sizes: true,
-      extras: true,
-    },
-  });
+  const bestSellersList = await getBestSellers();
 
   return (
     <section className="section-gap">
