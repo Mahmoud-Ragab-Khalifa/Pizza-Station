@@ -19,7 +19,7 @@ const MenuPage = async () => {
           </section>
         ))
       ) : (
-        <p className="text-accent text-center py-20"></p>
+        <p className="text-accent text-center py-20">No Products Found</p>
       )}
     </main>
   );
