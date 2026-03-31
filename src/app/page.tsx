@@ -1,5 +1,6 @@
 import About from "@/components/About";
 import BestSellers from "@/components/BestSellers";
+import Contact from "@/components/Contact";
 import Hero from "@/components/Hero";
 
 export default function Home() {
@@ -10,6 +11,8 @@ export default function Home() {
       <BestSellers />
 
       <About />
+
+      <Contact />
     </main>
   );
 }
