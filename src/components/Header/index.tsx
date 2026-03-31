@@ -2,12 +2,12 @@ import { Routes } from "@/constants/enums";
 import Link from "../Link";
 import Navbar from "./Navbar";
 import { Button } from "../ui/button";
-import { ShoppingCart, Sun } from "lucide-react";
 import ThemeToggler from "../Theme/ThemeToggler";
+import CartButton from "./CartButton";
 
 const Header = () => {
   return (
-    <header className="py-4 md:py-6 relative">
+    <header className="pt-7 pb-4 md:pb-0 relative pe-2.5 md:pe-0">
       <div className="container flex items-center">
         <Link
           href={Routes.ROOT}
@@ -27,7 +27,7 @@ const Header = () => {
             <ThemeToggler />
           </div>
 
-          <ShoppingCart className="text-accent" />
+          <CartButton />
         </div>
       </div>
     </header>
