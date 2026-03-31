@@ -3,7 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Header from "@/components/Header";
-import { ThemeProvider } from "@/components/Theme/ThemeProvider";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 import Footer from "@/components/Footer";
 import ReduxProvider from "@/providers/ReduxProvider";
 
