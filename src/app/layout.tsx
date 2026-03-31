@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Header from "@/components/Header";
 import { ThemeProvider } from "@/components/Theme/ThemeProvider";
+import Footer from "@/components/Footer";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -38,6 +39,8 @@ export default function RootLayout({
           <Header />
 
           {children}
+
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
