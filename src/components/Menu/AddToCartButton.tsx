@@ -18,21 +18,24 @@ import Extras from "./Extras";
 import { ProductWithRelations } from "@/types/product";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCartItems } from "@/redux/features/cart/cartSlice";
-import { Extra } from "@prisma/client";
+import { Extra, ProductSizes } from "@prisma/client";
 import { formatCurrency } from "@/lib/formatCurrency";
 
 const AddToCartButton = ({ item }: { item: ProductWithRelations }) => {
-  const { image, name, basePrice, description, sizes } = item;
+  const { id, image, name, basePrice, description, sizes } = item;
 
   const cart = useAppSelector(selectCartItems);
 
+  const cartItem = cart.find((e) => e.id === id);
+
   const [selectedSize, setSelectedSize] = useState(
-    cart.find((e) => e.id === item.id)?.size ||
-      sizes.find((e) => (e.name = "SMALL"))!,
+    cartItem?.size ??
+      sizes.find((e) => e.name === ProductSizes.SMALL) ??
+      sizes[0],
   );
 
   const [selectedExtras, setSelectedExtras] = useState<Extra[]>(
-    cart.find((e) => e.id === item.id)?.extras || [],
+    cartItem?.extras ?? [],
   );
 
   let totalPrice = basePrice;
