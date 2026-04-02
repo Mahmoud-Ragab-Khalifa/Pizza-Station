@@ -16,8 +16,8 @@ import Image from "next/image";
 import PickSize from "./PickSize";
 import Extras from "./Extras";
 import { ProductWithRelations } from "@/types/product";
-import { useAppSelector } from "@/redux/hooks";
-import { selectCartItems } from "@/redux/features/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { addCartItem, selectCartItems } from "@/redux/features/cart/cartSlice";
 import { Extra, ProductSizes } from "@prisma/client";
 import { formatCurrency } from "@/lib/formatCurrency";
 
@@ -25,6 +25,8 @@ const AddToCartButton = ({ item }: { item: ProductWithRelations }) => {
   const { id, image, name, basePrice, description, sizes } = item;
 
   const cart = useAppSelector(selectCartItems);
+
+  const dispatch = useAppDispatch();
 
   const cartItem = cart.find((e) => e.id === id);
 
@@ -47,6 +49,19 @@ const AddToCartButton = ({ item }: { item: ProductWithRelations }) => {
       totalPrice += extra.price;
     }
   }
+
+  const handleAddToCart = () => {
+    dispatch(
+      addCartItem({
+        id: item.id,
+        image: item.image,
+        name: item.name,
+        basePrice: item.basePrice,
+        size: selectedSize,
+        extras: selectedExtras,
+      }),
+    );
+  };
 
   return (
     <Dialog>
@@ -86,7 +101,7 @@ const AddToCartButton = ({ item }: { item: ProductWithRelations }) => {
         </div>
 
         <DialogFooter>
-          <Button className="w-full rounded-xl">
+          <Button className="w-full rounded-xl" onClick={handleAddToCart}>
             <span>Add To Cart</span>
             <strong>{formatCurrency(totalPrice)}</strong>
           </Button>
