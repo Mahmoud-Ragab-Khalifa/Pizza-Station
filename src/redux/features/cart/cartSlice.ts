@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "@/redux/store";
 import { Extra, Size } from "@prisma/client";
+import { calculateTotals } from "@/lib/cartUtils";
 
 export type CartItem = {
   id: string;
@@ -15,10 +16,14 @@ export type CartItem = {
 
 type CartState = {
   items: CartItem[];
+  totalPrice: number;
+  totalItems: number;
 };
 
 const initialState: CartState = {
   items: [],
+  totalPrice: 0,
+  totalItems: 0,
 };
 
 export const cartSlice = createSlice({
@@ -37,10 +42,18 @@ export const cartSlice = createSlice({
       } else {
         state.items.push({ ...action.payload, quantity: 1 });
       }
+
+      const totals = calculateTotals(state.items);
+      state.totalItems = totals.totalItems;
+      state.totalPrice = totals.totalPrice;
     },
 
     removeFromCart: (state, action: PayloadAction<{ key: string }>) => {
       state.items = state.items.filter((e) => e.key !== action.payload.key);
+
+      const totals = calculateTotals(state.items);
+      state.totalItems = totals.totalItems;
+      state.totalPrice = totals.totalPrice;
     },
 
     increase: (state, action: PayloadAction<{ key: string }>) => {
@@ -49,6 +62,10 @@ export const cartSlice = createSlice({
       if (item) {
         item.quantity! += 1;
       }
+
+      const totals = calculateTotals(state.items);
+      state.totalItems = totals.totalItems;
+      state.totalPrice = totals.totalPrice;
     },
 
     decrease: (state, action: PayloadAction<{ key: string }>) => {
@@ -61,10 +78,16 @@ export const cartSlice = createSlice({
           item.quantity! -= 1;
         }
       }
+
+      const totals = calculateTotals(state.items);
+      state.totalItems = totals.totalItems;
+      state.totalPrice = totals.totalPrice;
     },
 
     clearCart: (state) => {
       state.items = [];
+      state.totalItems = 0;
+      state.totalPrice = 0;
     },
   },
 });
@@ -74,5 +97,7 @@ export const { addToCart, removeFromCart, increase, decrease, clearCart } =
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCartItems = (state: RootState) => state.cart.items;
+export const selectCartTotalItems = (state: RootState) => state.cart.totalItems;
+export const selectCartTotalPrice = (state: RootState) => state.cart.totalPrice;
 
 export default cartSlice.reducer;
