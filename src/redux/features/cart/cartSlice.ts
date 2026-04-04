@@ -3,8 +3,9 @@ import { RootState } from "@/redux/store";
 import { Extra, Size } from "@prisma/client";
 
 export type CartItem = {
-  name: string;
   id: string;
+  key: string;
+  name: string;
   image: string;
   basePrice: number;
   quantity?: number;
@@ -26,41 +27,50 @@ export const cartSlice = createSlice({
   initialState,
 
   reducers: {
-    addCartItem: (state, action: PayloadAction<CartItem>) => {
+    addToCart: (state, action: PayloadAction<CartItem>) => {
       const existingItem = state.items.find(
-        (item) => item.id === action.payload.id,
+        (item) => item.key === action.payload.key,
       );
 
       if (existingItem) {
-        existingItem.quantity = (existingItem.quantity || 0) + 1;
-
-        existingItem.size = action.payload.size;
-
-        existingItem.extras = action.payload.extras;
+        existingItem.quantity! += 1;
       } else {
         state.items.push({ ...action.payload, quantity: 1 });
       }
     },
 
-    removeCartItem: (state, action: PayloadAction<{ id: string }>) => {
-      const item = state.items.find((e) => e.id === action.payload.id);
+    removeFromCart: (state, action: PayloadAction<{ key: string }>) => {
+      state.items = state.items.filter((e) => e.key !== action.payload.key);
+    },
+
+    increase: (state, action: PayloadAction<{ key: string }>) => {
+      const item = state.items.find((e) => e.key === action.payload.key);
 
       if (item) {
-        if (item.quantity === 1) {
-          state.items === state.items.filter((e) => e.id !== action.payload.id);
+        item.quantity! += 1;
+      }
+    },
+
+    decrease: (state, action: PayloadAction<{ key: string }>) => {
+      const item = state.items.find((e) => e.key === action.payload.key);
+
+      if (item) {
+        if (item.quantity! === 1) {
+          state.items = state.items.filter((e) => e.key !== action.payload.key);
         } else {
           item.quantity! -= 1;
         }
       }
     },
 
-    removeItemFromCart: (state, action: PayloadAction<{ id: string }>) => {
-      state.items === state.items.filter((e) => e.id !== action.payload.id);
+    clearCart: (state) => {
+      state.items = [];
     },
   },
 });
 
-export const { addCartItem } = cartSlice.actions;
+export const { addToCart, removeFromCart, increase, decrease, clearCart } =
+  cartSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCartItems = (state: RootState) => state.cart.items;
