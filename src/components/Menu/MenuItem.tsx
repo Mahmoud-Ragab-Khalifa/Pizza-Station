@@ -7,10 +7,7 @@ const MenuItem = ({ item }: { item: ProductWithRelations }) => {
   const { id, image, name, basePrice, description } = item;
 
   return (
-    <div
-      className="menuItem p-5 bg-card border border-border rounded-xl shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-300"
-      key={id}
-    >
+    <div className="card" key={id}>
       <Image
         src={image}
         alt={name}

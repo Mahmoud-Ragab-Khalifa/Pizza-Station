@@ -22,6 +22,7 @@ import { Extra, ProductSizes, Size } from "@prisma/client";
 import { formatCurrency } from "@/lib/formatCurrency";
 import { generateUniqueKey } from "@/lib/generateUniqueKey";
 import QuantityControl from "./QuantityControl";
+import { getTotalPrice } from "@/lib/getTotalPrice";
 
 const AddToCartButton = ({ item }: { item: ProductWithRelations }) => {
   const { id, image, name, basePrice, description, sizes } = item;
@@ -43,16 +44,6 @@ const AddToCartButton = ({ item }: { item: ProductWithRelations }) => {
   const [selectedExtras, setSelectedExtras] = useState<Extra[]>(
     lastCartItem?.extras ?? [],
   );
-
-  let totalPrice = basePrice;
-  if (selectedSize) {
-    totalPrice += selectedSize.price;
-  }
-  if (selectedExtras.length > 0) {
-    for (const extra of selectedExtras) {
-      totalPrice += extra.price;
-    }
-  }
 
   const handleAddToCart = () => {
     dispatch(
@@ -118,7 +109,10 @@ const AddToCartButton = ({ item }: { item: ProductWithRelations }) => {
           ) : (
             <Button className="w-full rounded-xl" onClick={handleAddToCart}>
               <span>Add To Cart</span>
-              <strong>{formatCurrency(totalPrice)}</strong>
+
+              <strong>
+                {getTotalPrice(basePrice, selectedSize, selectedExtras)}
+              </strong>
             </Button>
           )}
         </DialogFooter>

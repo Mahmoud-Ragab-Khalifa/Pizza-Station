@@ -41,7 +41,7 @@ const QuantityControl = ({
   return (
     <div className="w-full text-center element-center gap-2 flex-wrap">
       <Button
-        className="w-9 h-9 rounded-full element-center"
+        className="fully-rounded-btn"
         onClick={handleItemDecrease}
         disabled={quantity === 1}
       >
@@ -53,10 +53,7 @@ const QuantityControl = ({
         <span className="text-accent">Items In Cart</span>
       </p>
 
-      <Button
-        className="w-9 h-9 rounded-full element-center"
-        onClick={handleItemIncrease}
-      >
+      <Button className="fully-rounded-btn" onClick={handleItemIncrease}>
         +
       </Button>
 
