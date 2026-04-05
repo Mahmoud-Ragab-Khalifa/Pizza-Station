@@ -21,6 +21,7 @@ import { addToCart, selectCartItems } from "@/redux/features/cart/cartSlice";
 import { Extra, ProductSizes, Size } from "@prisma/client";
 import { formatCurrency } from "@/lib/formatCurrency";
 import { generateUniqueKey } from "@/lib/generateUniqueKey";
+import QuantityControl from "./QuantityControl";
 
 const AddToCartButton = ({ item }: { item: ProductWithRelations }) => {
   const { id, image, name, basePrice, description, sizes } = item;
@@ -105,10 +106,21 @@ const AddToCartButton = ({ item }: { item: ProductWithRelations }) => {
         </div>
 
         <DialogFooter>
-          <Button className="w-full rounded-xl" onClick={handleAddToCart}>
-            <span>Add To Cart</span>
-            <strong>{formatCurrency(totalPrice)}</strong>
-          </Button>
+          {cart.find(
+            (e) =>
+              e.key === generateUniqueKey(id, selectedSize, selectedExtras),
+          ) ? (
+            <QuantityControl
+              id={id}
+              selectedSize={selectedSize}
+              selectedExtras={selectedExtras}
+            />
+          ) : (
+            <Button className="w-full rounded-xl" onClick={handleAddToCart}>
+              <span>Add To Cart</span>
+              <strong>{formatCurrency(totalPrice)}</strong>
+            </Button>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>
