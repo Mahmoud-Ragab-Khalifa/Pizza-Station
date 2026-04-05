@@ -31,7 +31,7 @@ const CartItems = () => {
             return (
               <div
                 key={item.key}
-                className="card flex flex-col md:flex-row justify-between gap-5"
+                className="card flex flex-col md:flex-row lg:flex-col justify-between gap-5"
               >
                 <div className="flex gap-4 items-center flex-1">
                   <Image
@@ -92,7 +92,7 @@ const CartItems = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-center gap-4">
+                <div className="flex items-center justify-center xl:justify-end gap-4">
                   <div className="flex items-center gap-2">
                     <Button
                       className="fully-rounded-btn rounded-lg!"
