@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,17 +18,24 @@ import PickSize from "./PickSize";
 import Extras from "./Extras";
 import { ProductWithRelations } from "@/types/product";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { addToCart, selectCartItems } from "@/redux/features/cart/cartSlice";
+import {
+  addToCart,
+  selectCartItems,
+  selectCartTotalItems,
+  selectCartTotalPrice,
+  setCart,
+} from "@/redux/features/cart/cartSlice";
 import { Extra, ProductSizes, Size } from "@prisma/client";
-import { formatCurrency } from "@/lib/formatCurrency";
 import { generateUniqueKey } from "@/lib/generateUniqueKey";
 import QuantityControl from "./QuantityControl";
 import { getTotalPrice } from "@/lib/getTotalPrice";
 
 const AddToCartButton = ({ item }: { item: ProductWithRelations }) => {
-  const { id, image, name, basePrice, description, sizes } = item;
-
   const cart = useAppSelector(selectCartItems);
+  const totalPrice = useAppSelector(selectCartTotalPrice);
+  const totalItems = useAppSelector(selectCartTotalItems);
+
+  const { id, image, name, basePrice, description, sizes } = item;
 
   const dispatch = useAppDispatch();
 
@@ -44,6 +52,31 @@ const AddToCartButton = ({ item }: { item: ProductWithRelations }) => {
   const [selectedExtras, setSelectedExtras] = useState<Extra[]>(
     lastCartItem?.extras ?? [],
   );
+
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    const data = localStorage.getItem("storageCart");
+
+    if (data) {
+      dispatch(setCart(JSON.parse(data)));
+    }
+
+    setIsHydrated(true);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+
+    localStorage.setItem(
+      "storageCart",
+      JSON.stringify({
+        items: cart,
+        totalPrice,
+        totalItems,
+      }),
+    );
+  }, [cart, totalPrice, totalItems, isHydrated]);
 
   const handleAddToCart = () => {
     dispatch(

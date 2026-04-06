@@ -14,8 +14,6 @@ const Navbar = () => {
 
   const pathname = usePathname();
 
-  console.log(pathname);
-
   return (
     <nav>
       <ul

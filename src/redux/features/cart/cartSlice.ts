@@ -1,3 +1,5 @@
+"use client";
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "@/redux/store";
 import { Extra, Size } from "@prisma/client";
@@ -32,6 +34,12 @@ export const cartSlice = createSlice({
   initialState,
 
   reducers: {
+    setCart: (state, action) => {
+      state.items = action.payload.items;
+      state.totalPrice = action.payload.totalPrice;
+      state.totalItems = action.payload.totalItems;
+    },
+
     addToCart: (state, action: PayloadAction<CartItem>) => {
       const existingItem = state.items.find(
         (item) => item.key === action.payload.key,
@@ -92,8 +100,14 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, increase, decrease, clearCart } =
-  cartSlice.actions;
+export const {
+  setCart,
+  addToCart,
+  removeFromCart,
+  increase,
+  decrease,
+  clearCart,
+} = cartSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCartItems = (state: RootState) => state.cart.items;
