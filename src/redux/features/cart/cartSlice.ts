@@ -16,7 +16,7 @@ export type CartItem = {
   extras?: Extra[];
 };
 
-type CartState = {
+export type CartState = {
   items: CartItem[];
   totalPrice: number;
   totalItems: number;
@@ -34,7 +34,7 @@ export const cartSlice = createSlice({
   initialState,
 
   reducers: {
-    setCart: (state, action) => {
+    setCart: (state, action: PayloadAction<CartState>) => {
       state.items = action.payload.items;
       state.totalPrice = action.payload.totalPrice;
       state.totalItems = action.payload.totalItems;

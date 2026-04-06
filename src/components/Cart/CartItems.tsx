@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import {
@@ -8,7 +7,6 @@ import {
   selectCartItems,
   selectCartTotalItems,
   selectCartTotalPrice,
-  setCart,
 } from "@/redux/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Link from "../Link";
@@ -19,7 +17,7 @@ import { Button } from "../ui/button";
 import { Trash2 } from "lucide-react";
 import { getTotalPrice } from "@/lib/getTotalPrice";
 import { generateUniqueKey } from "@/lib/generateUniqueKey";
-import { useEffect, useState } from "react";
+import { useCartPersistence } from "@/hooks/useCartPersistence";
 
 const CartItems = () => {
   const cartItems = useAppSelector(selectCartItems);
@@ -30,30 +28,7 @@ const CartItems = () => {
 
   const dispatch = useAppDispatch();
 
-  const [isHydrated, setIsHydrated] = useState(false);
-
-  useEffect(() => {
-    const data = localStorage.getItem("storageCart");
-
-    if (data) {
-      dispatch(setCart(JSON.parse(data)));
-    }
-
-    setIsHydrated(true);
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (!isHydrated) return;
-
-    localStorage.setItem(
-      "storageCart",
-      JSON.stringify({
-        items: cartItems,
-        totalPrice,
-        totalItems,
-      }),
-    );
-  }, [cartItems, totalPrice, totalItems, isHydrated]);
+  useCartPersistence({ items: cartItems, totalPrice, totalItems });
 
   return (
     <div>
