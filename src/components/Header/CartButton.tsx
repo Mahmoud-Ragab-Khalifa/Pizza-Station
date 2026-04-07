@@ -2,12 +2,22 @@
 
 import Link from "../Link";
 import { Routes } from "@/constants/enums";
-import { selectCartTotalItems } from "@/redux/features/cart/cartSlice";
+import {
+  selectCartItems,
+  selectCartTotalItems,
+  selectCartTotalPrice,
+} from "@/redux/features/cart/cartSlice";
 import { useAppSelector } from "@/redux/hooks";
 import { ShoppingCartIcon } from "lucide-react";
+import { useCartPersistence } from "@/hooks/useCartPersistence";
 
 const CartButton = () => {
+  const cartItems = useAppSelector(selectCartItems);
+  const totalPrice = useAppSelector(selectCartTotalPrice);
   const totalItems = useAppSelector(selectCartTotalItems);
+
+  useCartPersistence({ items: cartItems, totalPrice, totalItems });
+
   return (
     <Link
       href={Routes.CART}
