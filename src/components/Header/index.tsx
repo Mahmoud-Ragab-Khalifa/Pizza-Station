@@ -1,9 +1,11 @@
+"use client";
+
 import { Routes } from "@/constants/enums";
 import Link from "../Link";
 import Navbar from "./Navbar";
-import { Button } from "../ui/button";
-import ThemeToggler from "../Theme/ThemeToggler";
+import ThemeToggler from "./ThemeToggler";
 import CartButton from "./CartButton";
+import LanguageToggler from "./LanguageToggler";
 
 const Header = () => {
   return (
@@ -19,9 +21,9 @@ const Header = () => {
         <div className="flex-1 flex items-center justify-end gap-4 z-50">
           <Navbar />
 
-          <Button variant={"outline"} className="hidden md:flex rounded-md">
-            العربية
-          </Button>
+          <div className="hidden md:block">
+            <LanguageToggler />
+          </div>
 
           <div className="hidden md:block">
             <ThemeToggler />

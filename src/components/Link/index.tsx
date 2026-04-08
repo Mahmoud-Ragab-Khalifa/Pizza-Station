@@ -1,36 +1,42 @@
 "use client";
 
-import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import React, { FC, HTMLAttributes, useEffect, useRef, useState } from "react";
+import { createNavigation } from "next-intl/navigation";
+import { routing } from "@/i18n/routing";
 
-type CustomLinkProps = NextLinkProps & {
-  children: React.ReactNode;
-  href: string;
-  target?: string;
-} & HTMLAttributes<HTMLAnchorElement>;
+// Generate navigation utilities
+const navigation = createNavigation(routing);
+const { Link: IntlLink } = navigation;
 
-const Link: FC<CustomLinkProps> = ({ children, href, ...rest }) => {
+type CustomLinkProps = React.ComponentProps<typeof IntlLink> &
+  HTMLAttributes<HTMLAnchorElement> & {
+    children: React.ReactNode;
+  };
+
+const Link: FC<CustomLinkProps> = ({ children, ...rest }) => {
   const [prefetching, setPrefetching] = useState(false);
   const linkRef = useRef<HTMLAnchorElement>(null);
-  const setPrefetchListener = () => {
-    setPrefetching(true);
-  };
-  const removePrefetchListener = () => {
-    setPrefetching(false);
-  };
+
+  const setPrefetchListener = () => setPrefetching(true);
+  const removePrefetchListener = () => setPrefetching(false);
+
   useEffect(() => {
     const linkElement = linkRef.current;
-    linkElement?.addEventListener("mouseover", setPrefetchListener);
-    linkElement?.addEventListener("mouseleave", removePrefetchListener);
+    if (!linkElement) return;
+
+    linkElement.addEventListener("mouseover", setPrefetchListener);
+    linkElement.addEventListener("mouseleave", removePrefetchListener);
+
     return () => {
-      linkElement?.removeEventListener("mouseover", setPrefetchListener);
-      linkElement?.removeEventListener("mouseleave", removePrefetchListener);
+      linkElement.removeEventListener("mouseover", setPrefetchListener);
+      linkElement.removeEventListener("mouseleave", removePrefetchListener);
     };
-  }, [prefetching]);
+  }, []);
+
   return (
-    <NextLink href={href} ref={linkRef} prefetch={prefetching} {...rest}>
+    <IntlLink ref={linkRef} prefetch={prefetching} {...rest}>
       {children}
-    </NextLink>
+    </IntlLink>
   );
 };
 

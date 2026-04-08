@@ -6,8 +6,9 @@ import { NAV_LINKS } from "@/constants/navigation";
 import { Button, buttonVariants } from "../ui/button";
 import { useState } from "react";
 import { Pages, Routes } from "@/constants/enums";
-import ThemeToggler from "../Theme/ThemeToggler";
-import { usePathname } from "next/navigation";
+import ThemeToggler from "./ThemeToggler";
+import { usePathname } from "@/i18n/navigation";
+import LanguageToggler from "./LanguageToggler";
 
 const Navbar = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -42,9 +43,7 @@ const Navbar = () => {
         })}
 
         <div className="flex items-center absolute inset-e-0 bottom-6 gap-4 mx-4 md:hidden md:p-0 md:m-0">
-          <Button variant={"outline"} className="rounded-md">
-            العربية
-          </Button>
+          <LanguageToggler />
 
           <ThemeToggler />
         </div>
