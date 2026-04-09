@@ -1,12 +1,7 @@
 "use client";
 
 import React, { FC, HTMLAttributes, useEffect, useRef, useState } from "react";
-import { createNavigation } from "next-intl/navigation";
-import { routing } from "@/i18n/routing";
-
-// Generate navigation utilities
-const navigation = createNavigation(routing);
-const { Link: IntlLink } = navigation;
+import { Link as IntlLink } from "@/i18n/navigation";
 
 type CustomLinkProps = React.ComponentProps<typeof IntlLink> &
   HTMLAttributes<HTMLAnchorElement> & {
@@ -17,19 +12,19 @@ const Link: FC<CustomLinkProps> = ({ children, ...rest }) => {
   const [prefetching, setPrefetching] = useState(false);
   const linkRef = useRef<HTMLAnchorElement>(null);
 
-  const setPrefetchListener = () => setPrefetching(true);
-  const removePrefetchListener = () => setPrefetching(false);
-
   useEffect(() => {
     const linkElement = linkRef.current;
     if (!linkElement) return;
 
-    linkElement.addEventListener("mouseover", setPrefetchListener);
-    linkElement.addEventListener("mouseleave", removePrefetchListener);
+    const onEnter = () => setPrefetching(true);
+    const onLeave = () => setPrefetching(false);
+
+    linkElement.addEventListener("mouseover", onEnter);
+    linkElement.addEventListener("mouseleave", onLeave);
 
     return () => {
-      linkElement.removeEventListener("mouseover", setPrefetchListener);
-      linkElement.removeEventListener("mouseleave", removePrefetchListener);
+      linkElement.removeEventListener("mouseover", onEnter);
+      linkElement.removeEventListener("mouseleave", onLeave);
     };
   }, []);
 
