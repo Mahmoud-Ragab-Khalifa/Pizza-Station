@@ -1,6 +1,7 @@
 import Link from "@/components/Link";
 import { buttonVariants } from "@/components/ui/button";
 import { Pages, Routes } from "@/constants/enums";
+import Form from "./_components/Form";
 
 const SigninPage = () => {
   return (
@@ -10,7 +11,7 @@ const SigninPage = () => {
           Welcome Back
         </h2>
 
-        <form>Signin Form</form>
+        <Form />
 
         <div className="mt-2 text-center text-accent text-sm">
           <span>Don&apos;t Have An Account?</span>
