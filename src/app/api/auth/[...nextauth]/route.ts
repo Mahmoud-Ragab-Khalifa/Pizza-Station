@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { Environments, Pages, Routes } from "@/constants/enums";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "@/lib/prisma";
+import { login } from "@/server/_actions/auth";
 
 const handler = NextAuth({
   providers: [
@@ -23,10 +24,19 @@ const handler = NextAuth({
         },
       },
 
-      authorize: (credentials) => {
-        const user = credentials;
+      authorize: async (credentials) => {
+        const res = await login(credentials);
 
-        return { id: crypto.randomUUID(), ...user };
+        if (res.status === 200 && res.user) {
+          return res.user;
+        } else {
+          throw new Error(
+            JSON.stringify({
+              validationError: res.error,
+              responseError: res.message,
+            }),
+          );
+        }
       },
     }),
   ],
