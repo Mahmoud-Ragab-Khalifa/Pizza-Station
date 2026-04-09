@@ -1,21 +1,15 @@
 import * as z from "zod";
-import { getTranslations } from "next-intl/server";
+import { Translations } from "@/types/translations";
 
-export const loginSchema = async () => {
-  const t = await getTranslations("validation");
-
+export const loginSchema = (translations: Translations) => {
   return z.object({
-    email: z
-      .string()
-      .trim()
-      .email({
-        message: t("validEmail"),
-      }),
-
+    email: z.string().trim().email({
+      message: translations.validation.validEmail,
+    }),
     password: z
       .string()
-      .min(6, { message: t("passwordMinLength") })
-      .max(40, { message: t("passwordMaxLength") }),
+      .min(6, { message: translations.validation.passwordMinLength })
+      .max(40, { message: translations.validation.passwordMaxLength }),
   });
 };
 

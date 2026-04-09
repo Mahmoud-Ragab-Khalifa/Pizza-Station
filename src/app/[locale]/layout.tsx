@@ -8,6 +8,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { Directions, Languages } from "@/constants/enums";
 import { getLocale } from "next-intl/server";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -54,6 +55,8 @@ export default async function RootLayout({
               <Header />
 
               {children}
+
+              <Toaster />
 
               <Footer />
             </ThemeProvider>

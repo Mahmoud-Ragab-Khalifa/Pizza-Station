@@ -2,19 +2,21 @@
 
 import { db } from "@/lib/prisma";
 import { loginSchema } from "@/validations/auth";
-import { getTranslations } from "next-intl/server";
 import bcrypt from "bcrypt";
+import { getAppTranslations } from "@/lib/getAppTranslations";
+import { Locale } from "next-intl";
 
 export const login = async (
   credentials: Record<"email" | "password", string> | undefined,
+  locale: Locale,
 ) => {
-  const t = await getTranslations("messages");
+  const translations = await getAppTranslations(locale);
 
-  const result = (await loginSchema()).safeParse(credentials);
+  const result = loginSchema(translations).safeParse(credentials);
 
   if (result.success === false) {
     return {
-      error: result.error.message,
+      error: result.error.formErrors.fieldErrors,
       status: 400,
     };
   }
@@ -28,7 +30,7 @@ export const login = async (
 
     if (!user) {
       return {
-        message: t("userNotFound"),
+        message: translations.messages.userNotFound,
         status: 401,
       };
     }
@@ -40,7 +42,7 @@ export const login = async (
 
     if (!isValidPassword) {
       return {
-        message: t("incorrectPassword"),
+        message: translations.messages.incorrectPassword,
         status: 401,
       };
     }
@@ -50,14 +52,14 @@ export const login = async (
 
     return {
       user: userWithoutPassword,
-      message: t("loginSuccessful"),
+      message: translations.messages.loginSuccessful,
       status: 200,
     };
   } catch (error) {
     console.error(error);
 
     return {
-      message: t("unexpectedError"),
+      message: translations.messages.unexpectedError,
       status: 500,
     };
   }

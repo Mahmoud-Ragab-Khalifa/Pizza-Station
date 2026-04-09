@@ -4,6 +4,8 @@ import { Environments, Pages, Routes } from "@/constants/enums";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "@/lib/prisma";
 import { login } from "@/server/_actions/auth";
+import { getLocale } from "next-intl/server";
+import { Locale } from "next-intl";
 
 const handler = NextAuth({
   providers: [
@@ -24,8 +26,10 @@ const handler = NextAuth({
         },
       },
 
-      authorize: async (credentials) => {
-        const res = await login(credentials);
+      authorize: async (credentials, req) => {
+        const currentUrl = req?.headers?.referer;
+        const locale = currentUrl?.split("/")[3] as Locale;
+        const res = await login(credentials, locale);
 
         if (res.status === 200 && res.user) {
           return res.user;
