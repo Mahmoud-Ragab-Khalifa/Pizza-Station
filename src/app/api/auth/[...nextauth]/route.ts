@@ -4,7 +4,6 @@ import { Environments, Pages, Routes } from "@/constants/enums";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "@/lib/prisma";
 import { login } from "@/server/_actions/auth";
-import { getLocale } from "next-intl/server";
 import { Locale } from "next-intl";
 
 const handler = NextAuth({

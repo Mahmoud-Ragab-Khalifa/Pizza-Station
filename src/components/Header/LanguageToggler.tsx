@@ -13,7 +13,7 @@ const LanguageToggler = () => {
   return (
     <Button
       variant={"outline"}
-      className={`${locale === Languages.ARABIC ? "font-roboto" : "font-cairo"} rounded-md`}
+      className="rounded-md"
       onClick={() =>
         router.replace(pathname, {
           locale:
@@ -21,7 +21,7 @@ const LanguageToggler = () => {
         })
       }
     >
-      {locale === Languages.ARABIC ? "English" : "العربية"}
+      {locale === Languages.ARABIC ? "الأنجليزية" : "Arabic"}
     </Button>
   );
 };

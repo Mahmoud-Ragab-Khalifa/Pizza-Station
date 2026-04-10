@@ -7,19 +7,19 @@ type NavLink = {
 
 export const NAV_LINKS: NavLink[] = [
   {
-    title: "Menu",
+    title: "navbar.menu",
     href: Routes.MENU,
   },
   {
-    title: "About",
+    title: "navbar.about",
     href: Routes.ABOUT,
   },
   {
-    title: "Contact",
+    title: "navbar.contact",
     href: Routes.CONTACT,
   },
   {
-    title: "Login",
+    title: "navbar.login",
     href: `${Routes.AUTH}${Pages.LOGIN}`,
   },
 ];

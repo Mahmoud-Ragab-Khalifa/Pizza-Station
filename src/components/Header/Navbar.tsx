@@ -9,11 +9,14 @@ import { Pages, Routes } from "@/constants/enums";
 import ThemeToggler from "./ThemeToggler";
 import { usePathname } from "@/i18n/navigation";
 import LanguageToggler from "./LanguageToggler";
+import { useTranslations } from "next-intl";
 
 const Navbar = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const pathname = usePathname();
+
+  const t = useTranslations();
 
   return (
     <nav>
@@ -36,7 +39,7 @@ const Navbar = () => {
                       }`
                 }`}
               >
-                {title}
+                {t(title)}
               </Link>
             </li>
           );

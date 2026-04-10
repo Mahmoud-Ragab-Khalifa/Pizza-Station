@@ -6,8 +6,11 @@ import Navbar from "./Navbar";
 import ThemeToggler from "./ThemeToggler";
 import CartButton from "./CartButton";
 import LanguageToggler from "./LanguageToggler";
+import { useTranslations } from "next-intl";
 
 const Header = () => {
+  const t = useTranslations();
+
   return (
     <header className="pt-7 pb-4 md:pb-0 relative pe-2.5 md:pe-0">
       <div className="container flex items-center">
@@ -15,7 +18,7 @@ const Header = () => {
           href={Routes.ROOT}
           className="text-primary font-semibold text-2xl z-50"
         >
-          🍕 Pizza
+          🍕 {t("logo")}
         </Link>
 
         <div className="flex-1 flex items-center justify-end gap-4 z-50">
