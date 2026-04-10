@@ -1,10 +1,11 @@
 "use server";
 
 import { db } from "@/lib/prisma";
-import { loginSchema } from "@/validations/auth";
+import { loginSchema, signupSchema } from "@/validations/auth";
 import bcrypt from "bcrypt";
 import { getAppTranslations } from "@/lib/getAppTranslations";
 import { Locale } from "next-intl";
+import { getLocale } from "next-intl/server";
 
 export const login = async (
   credentials: Record<"email" | "password", string> | undefined,
@@ -61,6 +62,63 @@ export const login = async (
     return {
       message: translations.messages.unexpectedError,
       status: 500,
+    };
+  }
+};
+
+export const signup = async (prevState: unknown, formData: FormData) => {
+  const locale = await getLocale();
+  const translations = await getAppTranslations(locale);
+
+  const result = signupSchema(translations).safeParse(
+    Object.fromEntries(formData.entries()),
+  );
+
+  if (result.success === false) {
+    return {
+      error: result.error.formErrors.fieldErrors,
+      formData,
+    };
+  }
+
+  try {
+    const user = await db.user.findUnique({
+      where: {
+        email: result.data.email,
+      },
+    });
+
+    if (user) {
+      return {
+        status: 409,
+        message: translations.messages.userAlreadyExists,
+        formData,
+      };
+    }
+
+    const hashedPassword = await bcrypt.hash(result.data.password, 10);
+    const createdUser = await db.user.create({
+      data: {
+        name: result.data.name,
+        email: result.data.email,
+        password: hashedPassword,
+      },
+    });
+
+    return {
+      status: 201,
+      message: translations.messages.accountCreated,
+      user: {
+        id: createdUser.id,
+        name: createdUser.name,
+        email: createdUser.email,
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      status: 500,
+      message: translations.messages.unexpectedError,
     };
   }
 };

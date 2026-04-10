@@ -3,6 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Pages, Routes } from "@/constants/enums";
 import { getAppTranslations } from "@/lib/getAppTranslations";
 import { getLocale } from "next-intl/server";
+import Form from "./_components/Form";
 
 const SignupPage = async () => {
   const locale = await getLocale();
@@ -15,7 +16,7 @@ const SignupPage = async () => {
           {translations.auth.register.title}
         </h2>
 
-        <form>Signup Form</form>
+        <Form translations={translations} />
 
         <div className="mt-2 text-center text-accent text-sm">
           <span>{translations.auth.register.authPrompt.message}</span>

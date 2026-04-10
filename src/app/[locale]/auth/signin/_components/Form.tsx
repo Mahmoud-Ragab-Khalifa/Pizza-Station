@@ -3,8 +3,9 @@
 import FormFields from "@/components/FormFields/FormFields";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
-import { Pages } from "@/constants/enums";
+import { Pages, Routes } from "@/constants/enums";
 import useFormFields from "@/hooks/useFormFields";
+import { useRouter } from "@/i18n/navigation";
 import { IFormField } from "@/types/app";
 import { Translations } from "@/types/translations";
 import { signIn } from "next-auth/react";
@@ -18,6 +19,8 @@ const Form = ({ translations }: { translations: Translations }) => {
 
   const [error, setError] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,7 +43,6 @@ const Form = ({ translations }: { translations: Translations }) => {
       if (res?.error) {
         const validationError = JSON.parse(res?.error).validationError;
         setError(validationError);
-        console.log(validationError);
 
         const responseError = JSON.parse(res?.error).responseError;
         if (responseError) {
@@ -52,6 +54,8 @@ const Form = ({ translations }: { translations: Translations }) => {
         toast.success(translations.messages.loginSuccessful, {
           position: "top-center",
         });
+
+        router.replace(Routes.PROFILE);
       }
     } catch (error) {
       console.log(error);
