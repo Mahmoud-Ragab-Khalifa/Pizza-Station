@@ -14,7 +14,7 @@ const SignInBtn = ({ color }: { color?: string }) => {
   return (
     <Link
       href={target}
-      className={`rounded-md bg-${color}! ${pathname === target ? "lg:text-primary" : "lg:text-accent"} lg:font-semibold lg:hover:text-primary lg:transition-colors lg:duration-300 px-4 block py-1.25`}
+      className={`text-white rounded-md bg-${color}! ${pathname === target ? "lg:text-primary" : "lg:text-accent"} lg:font-semibold lg:hover:text-primary lg:transition-colors lg:duration-300 px-4 block py-1.25`}
     >
       {t("login")}
     </Link>

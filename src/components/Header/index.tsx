@@ -31,7 +31,11 @@ const Header = () => {
           <div className="flex lg:hidden items-center gap-5">
             <CartButton />
 
-            {session ? <SignOutBtn /> : <SignInBtn color="primary" />}
+            {session.data?.user ? (
+              <SignOutBtn />
+            ) : (
+              <SignInBtn color="primary" />
+            )}
 
             <Navbar />
           </div>
