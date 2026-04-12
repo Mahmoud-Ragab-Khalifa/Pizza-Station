@@ -10,11 +10,12 @@ import { useTranslations } from "next-intl";
 import SignInBtn from "./SignInBtn";
 import SignUpBtn from "./SignUpBtn";
 import SignOutBtn from "./SignOutBtn";
+import { useSession } from "next-auth/react";
 
 const Header = () => {
   const t = useTranslations();
 
-  const isAuth = true;
+  const session = useSession();
 
   return (
     <header className="pt-7 pb-4 lg:pb-0 relative">
@@ -30,7 +31,7 @@ const Header = () => {
           <div className="flex lg:hidden items-center gap-5">
             <CartButton />
 
-            {isAuth ? <SignOutBtn /> : <SignInBtn color="primary" />}
+            {session ? <SignOutBtn /> : <SignInBtn color="primary" />}
 
             <Navbar />
           </div>
@@ -42,7 +43,7 @@ const Header = () => {
 
         <div className="flex items-center justify-end gap-4 z-50">
           <div className="hidden lg:flex items-center gap-4">
-            {isAuth ? (
+            {session.data?.user ? (
               <SignOutBtn />
             ) : (
               <div className="flex items-center gap-4">

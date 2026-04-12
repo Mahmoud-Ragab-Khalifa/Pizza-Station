@@ -9,6 +9,7 @@ import { Directions, Languages } from "@/constants/enums";
 import { getLocale } from "next-intl/server";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import NextAuthSessionProvider from "@/providers/NextAuthSessionProvider";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -44,24 +45,26 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body>
-        <NextIntlClientProvider>
-          <ReduxProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <Header />
+        <NextAuthSessionProvider>
+          <NextIntlClientProvider>
+            <ReduxProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <Header />
 
-              {children}
+                {children}
 
-              <Toaster />
+                <Toaster />
 
-              <Footer />
-            </ThemeProvider>
-          </ReduxProvider>
-        </NextIntlClientProvider>
+                <Footer />
+              </ThemeProvider>
+            </ReduxProvider>
+          </NextIntlClientProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

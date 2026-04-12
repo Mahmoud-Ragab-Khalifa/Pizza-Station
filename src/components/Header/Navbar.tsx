@@ -10,6 +10,7 @@ import ThemeToggler from "./ThemeToggler";
 import { usePathname } from "@/i18n/navigation";
 import LanguageToggler from "./LanguageToggler";
 import { useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
 
 const Navbar = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -36,7 +37,7 @@ const Navbar = () => {
 
   const t = useTranslations();
 
-  const isAuth = true;
+  const session = useSession();
   const role = UserRole.USER;
 
   return (
@@ -56,7 +57,7 @@ const Navbar = () => {
           </li>
         ))}
 
-        {isAuth && (
+        {session.data?.user && (
           <li>
             <Link
               href={role === UserRole.USER ? Routes.PROFILE : Routes.ADMIN}
