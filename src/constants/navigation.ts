@@ -1,4 +1,4 @@
-import { Pages, Routes } from "./enums";
+import { Routes } from "./enums";
 
 type NavLink = {
   title: string;
@@ -17,9 +17,5 @@ export const NAV_LINKS: NavLink[] = [
   {
     title: "navbar.contact",
     href: Routes.CONTACT,
-  },
-  {
-    title: "navbar.login",
-    href: `${Routes.AUTH}${Pages.LOGIN}`,
   },
 ];
