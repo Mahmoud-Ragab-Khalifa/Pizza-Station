@@ -10,9 +10,10 @@ import ThemeToggler from "./ThemeToggler";
 import { usePathname } from "@/i18n/navigation";
 import LanguageToggler from "./LanguageToggler";
 import { useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
+import { useClientSession } from "@/hooks/useClientSession";
+import { Session } from "next-auth";
 
-const Navbar = () => {
+const Navbar = ({ initialSession }: { initialSession: Session | null }) => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -37,7 +38,7 @@ const Navbar = () => {
 
   const t = useTranslations();
 
-  const session = useSession();
+  const session = useClientSession(initialSession);
   const role = UserRole.USER;
 
   return (
