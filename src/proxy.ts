@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import withAuth from "next-auth/middleware";
 import { getToken } from "next-auth/jwt";
 import { Locale } from "next-intl";
-import { Pages, Routes } from "./constants/enums";
+import { Pages, Routes, UserRole } from "./constants/enums";
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -31,11 +31,41 @@ export default withAuth(
       );
     }
 
-    // if logged in user try yo access auth page this action make user conflict so redirect to profile page
+    // if logged in user try yo access auth page this action make user conflict so redirect to role page
     if (isAuth && isAuthPage) {
+      const role = isAuth.role;
+
+      if (role === UserRole.ADMIN) {
+        return NextResponse.redirect(
+          new URL(`/${locale}${Routes.ADMIN}`, req.url),
+        );
+      }
+
       return NextResponse.redirect(
         new URL(`/${locale}${Routes.PROFILE}`, req.url),
       );
+    }
+
+    // if logged in user he isn't admin try to access admin page redirect it to profile page
+    if (isAuth && pathname.startsWith(`/${locale}${Routes.ADMIN}`)) {
+      const role = isAuth.role;
+
+      if (role !== UserRole.ADMIN) {
+        return NextResponse.redirect(
+          new URL(`/${locale}${Routes.PROFILE}`, req.url),
+        );
+      }
+    }
+
+    // if admin try to access profile page redirect it to admin page -> override client side behaviour
+    if (isAuth && pathname.startsWith(`/${locale}${Routes.PROFILE}`)) {
+      const role = isAuth.role;
+
+      if (role === UserRole.ADMIN) {
+        return NextResponse.redirect(
+          new URL(`/${locale}${Routes.ADMIN}`, req.url),
+        );
+      }
     }
 
     return response;

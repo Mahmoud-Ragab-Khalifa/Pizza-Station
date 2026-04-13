@@ -39,7 +39,7 @@ const Navbar = ({ initialSession }: { initialSession: Session | null }) => {
   const t = useTranslations();
 
   const session = useClientSession(initialSession);
-  const role = UserRole.USER;
+  const role = session.data?.user.role;
 
   return (
     <nav ref={menuRef}>
@@ -63,7 +63,7 @@ const Navbar = ({ initialSession }: { initialSession: Session | null }) => {
             <Link
               href={role === UserRole.USER ? Routes.PROFILE : Routes.ADMIN}
               onClick={() => setIsOpenMenu(false)}
-              className={`px-4 block lg:px-3 py-2 font-semibold hover:text-primary transition-colors duration-300 ${pathname === Routes.PROFILE ? "text-primary" : "text-accent"}`}
+              className={`px-4 block lg:px-3 py-2 font-semibold hover:text-primary transition-colors duration-300 ${pathname.startsWith(role === UserRole.ADMIN ? Routes.ADMIN : Routes.PROFILE) ? "text-primary" : "text-accent"}`}
             >
               {role === UserRole.USER ? t("navbar.profile") : t("navbar.admin")}
             </Link>
