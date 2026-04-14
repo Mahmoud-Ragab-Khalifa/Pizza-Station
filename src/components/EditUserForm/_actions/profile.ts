@@ -1,13 +1,17 @@
 "use server";
 
-import { Pages, Routes } from "@/constants/enums";
+import { Pages, Routes, UserRole } from "@/constants/enums";
 import { getAppTranslations } from "@/lib/getAppTranslations";
 import { db } from "@/lib/prisma";
 import { updateProfileSchema } from "@/validations/profile";
 import { getLocale } from "next-intl/server";
 import { revalidatePath } from "next/cache";
 
-export const updateProfile = async (prevState: unknown, formData: FormData) => {
+export const updateProfile = async (
+  isAdmin: boolean,
+  prevState: unknown,
+  formData: FormData,
+) => {
   const locale = await getLocale();
 
   const translations = await getAppTranslations(locale);
@@ -44,7 +48,11 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
 
     await db.user.update({
       where: { email: user.email },
-      data: { ...data, image: imageUrl ?? user.image },
+      data: {
+        ...data,
+        image: imageUrl ?? user.image,
+        role: isAdmin ? UserRole.ADMIN : UserRole.USER,
+      },
     });
 
     revalidatePath(`/${locale}${Routes.PROFILE}`);

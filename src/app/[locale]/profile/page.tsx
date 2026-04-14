@@ -1,5 +1,5 @@
 import EditUserForm from "@/components/EditUserForm";
-import { Pages, Routes } from "@/constants/enums";
+import { Pages, Routes, UserRole } from "@/constants/enums";
 import { getAppTranslations } from "@/lib/getAppTranslations";
 import { authOptions } from "@/server/auth";
 import { getServerSession } from "next-auth";
@@ -15,6 +15,10 @@ const ProfilePage = async () => {
 
   if (!session) {
     redirect(`/${locale}${Routes.AUTH}${Pages.LOGIN}`);
+  }
+
+  if (session && session.user.role === UserRole.ADMIN) {
+    redirect(`/${locale}${Routes.ADMIN}`);
   }
 
   return (

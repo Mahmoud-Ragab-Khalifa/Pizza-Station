@@ -57,17 +57,6 @@ export default withAuth(
       }
     }
 
-    // if admin try to access profile page redirect it to admin page -> override client side behaviour
-    if (isAuth && pathname.startsWith(`/${locale}${Routes.PROFILE}`)) {
-      const role = isAuth.role;
-
-      if (role === UserRole.ADMIN) {
-        return NextResponse.redirect(
-          new URL(`/${locale}${Routes.ADMIN}`, req.url),
-        );
-      }
-    }
-
     return response;
   },
   {

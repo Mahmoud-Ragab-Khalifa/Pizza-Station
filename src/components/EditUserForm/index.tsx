@@ -48,11 +48,14 @@ const EditUserForm = ({
     formData,
   };
 
-  const [state, action, pending] = useActionState(updateProfile, initialState);
+  const [isAdmin, setIsAdmin] = useState(user.role === UserRole.ADMIN);
 
   const [selectedImage, setSelectedImage] = useState(user.image ?? "");
 
-  const [isAdmin, setIsAdmin] = useState(user.role === UserRole.ADMIN);
+  const [state, action, pending] = useActionState(
+    updateProfile.bind(null, isAdmin),
+    initialState,
+  );
 
   useEffect(() => {
     if (state.message && state.status && !pending) {
