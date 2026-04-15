@@ -1,33 +1,25 @@
 import MainHeading from "../MainHeading";
+import { getLocale } from "next-intl/server";
+import { getAppTranslations } from "@/lib/getAppTranslations";
 
-const About = () => {
+const About = async () => {
+  const locale = await getLocale();
+  const translations = await getAppTranslations(locale);
+
   return (
     <section className="section-gap">
       <div className="container text-center">
-        <MainHeading subTitle="Our Story" title="About Us" />
+        <MainHeading
+          subTitle={translations.home.about.ourStory}
+          title={translations.home.about.aboutUs}
+        />
 
         <div className="text-accent max-w-md mx-auto mt-4 flex flex-col gap-4">
-          <p>
-            Welcome to our pizzeria, where we serve the finest pizzas made with
-            the freshest ingredients. Every slice is a masterpiece, crafted with
-            care to deliver the perfect balance of flavors. From classic
-            favorites to unique creations, there&apos;s something for every
-            pizza lover!
-          </p>
+          <p>{translations.home.about.descriptions.one}</p>
 
-          <p>
-            Our passion for pizza shines through every dish. We hand-pick the
-            best local ingredients and bake them to perfection, ensuring that
-            every bite is delicious and satisfying. Whether you&apos;re here for
-            a quick meal or a relaxed dining experience, we’ve got you covered.
-          </p>
+          <p>{translations.home.about.descriptions.two}</p>
 
-          <p>
-            Join us on a flavorful journey and experience the joy of pizza like
-            never before. We pride ourselves on delivering great taste, quality,
-            and service to make every meal memorable. Come and taste the
-            difference!
-          </p>
+          <p>{translations.home.about.descriptions.three}</p>
         </div>
       </div>
     </section>

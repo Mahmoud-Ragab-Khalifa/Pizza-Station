@@ -1,10 +1,18 @@
 import MainHeading from "../MainHeading";
+import { getLocale } from "next-intl/server";
+import { getAppTranslations } from "@/lib/getAppTranslations";
 
-const Contact = () => {
+const Contact = async () => {
+  const locale = await getLocale();
+  const translations = await getAppTranslations(locale);
+
   return (
     <section className="section-gap">
       <div className="container text-center">
-        <MainHeading subTitle="Don't Hesitate" title="Contact Us" />
+        <MainHeading
+          subTitle={translations.home.contact["Don'tHesitate"]}
+          title={translations.home.contact.contactUs}
+        />
 
         <div className="mt-8">
           <a
