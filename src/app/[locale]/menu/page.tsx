@@ -1,8 +1,13 @@
 import Menu from "@/components/Menu";
+import { getAppTranslations } from "@/lib/getAppTranslations";
 import { getProductsByCategory } from "@/server/db/products";
+import { getLocale } from "next-intl/server";
 
 const MenuPage = async () => {
   const categories = await getProductsByCategory();
+
+  const locale = await getLocale();
+  const translations = await getAppTranslations(locale);
 
   return (
     <main>
@@ -19,7 +24,9 @@ const MenuPage = async () => {
           </section>
         ))
       ) : (
-        <p className="text-accent text-center py-20">No Products Found</p>
+        <p className="text-accent text-center py-20">
+          {translations.noProductsFound}
+        </p>
       )}
     </main>
   );
