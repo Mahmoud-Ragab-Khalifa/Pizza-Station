@@ -25,10 +25,6 @@ const AdminPage = async () => {
     <main>
       <section className="section-gap">
         <div className="container">
-          <h1 className="text-primary text-center font-bold text-4xl italic mb-10">
-            Admin
-          </h1>
-
           <EditUserForm translations={translations} user={session?.user} />
         </div>
       </section>
