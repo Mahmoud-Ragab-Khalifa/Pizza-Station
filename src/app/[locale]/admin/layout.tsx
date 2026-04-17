@@ -1,7 +1,10 @@
+import AdminTabs from "./_components/AdminTabs";
+
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <h1>AdminTabs</h1>
+      <AdminTabs />
+
       {children}
     </>
   );
