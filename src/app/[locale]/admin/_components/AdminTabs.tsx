@@ -18,7 +18,7 @@ const AdminTabs = () => {
   };
 
   return (
-    <nav className="section-gap pb-0! px-4">
+    <nav className="section-gap mb-0! px-4">
       <ul className="flex items-center flex-wrap gap-4 justify-center">
         {ADMIN_TABS.map(({ title, href }) => (
           <li key={href}>
