@@ -237,5 +237,12 @@
   },
   "copyRight": "© 2024 All rights reserved",
   "noProductsFound": "No products found",
-  "noCategoriesFound": "No categories found"
+  "noCategoriesFound": "No categories found",
+
+  "deleteCategory": {
+    "deleteBtn": "Delete",
+    "cancelBtn": "Cancel",
+    "title": "Delete This Category?",
+    "desc": "Are you sure you Need to Remove <span>{category}</span> From Categories List?"
+  }
 }

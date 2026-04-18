@@ -17,7 +17,7 @@ const CategoryItem = async ({ category }: { category: Category }) => {
       <div className="flex items-center gap-2">
         <EditCategory translations={translations} category={category} />
 
-        <DeleteCategory translations={translations} category={category} />
+        <DeleteCategory category={category} />
       </div>
     </li>
   );

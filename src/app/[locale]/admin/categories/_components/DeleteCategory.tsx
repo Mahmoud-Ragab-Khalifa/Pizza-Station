@@ -11,12 +11,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Translations } from "@/types/translations";
 import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { deleteCategory } from "../_actions/category";
 import { Category } from "@prisma/client";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 type StateType = {
   isLoading: boolean;
@@ -24,13 +24,9 @@ type StateType = {
   status: number | null;
 };
 
-const DeleteCategory = ({
-  translations,
-  category,
-}: {
-  translations: Translations;
-  category: Category;
-}) => {
+const DeleteCategory = ({ category }: { category: Category }) => {
+  const t = useTranslations("deleteCategory");
+
   const [state, setState] = useState<StateType>({
     isLoading: false,
     message: "",
@@ -77,32 +73,33 @@ const DeleteCategory = ({
             <Trash2 />
           </div>
 
-          <DialogTitle>Delete Category?</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
 
           <DialogDescription>
-            are you sure you want to delete{" "}
-            <span className="text-primary font-medium italic">
-              {category.name}
-            </span>{" "}
-            category from categories list
+            {t.rich("desc", {
+              category: category.name,
+              span: (chunk) => (
+                <span className="text-primary font-bold italic">{chunk}</span>
+              ),
+            })}
           </DialogDescription>
         </DialogHeader>
 
         <DialogFooter className="grid grid-cols-2 gap-4">
-          <DialogClose asChild>
-            <Button variant="outline" className="rounded-lg">
-              {translations.cancel}
-            </Button>
-          </DialogClose>
-
           <Button
             variant="destructive"
             disabled={state.isLoading}
             onClick={handleDelete}
             className="rounded-lg"
           >
-            {translations.delete} <Trash2 />
+            {t("deleteBtn")} <Trash2 />
           </Button>
+
+          <DialogClose asChild>
+            <Button variant="outline" className="rounded-lg">
+              {t("cancelBtn")}
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
