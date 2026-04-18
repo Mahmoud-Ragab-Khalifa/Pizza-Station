@@ -2,6 +2,7 @@ import { Category } from "@prisma/client";
 import EditCategory from "./EditCategory";
 import { getLocale } from "next-intl/server";
 import { getAppTranslations } from "@/lib/getAppTranslations";
+import DeleteCategory from "./DeleteCategory";
 
 const CategoryItem = async ({ category }: { category: Category }) => {
   const locale = await getLocale();
@@ -16,7 +17,7 @@ const CategoryItem = async ({ category }: { category: Category }) => {
       <div className="flex items-center gap-2">
         <EditCategory translations={translations} category={category} />
 
-        <span>Delete</span>
+        <DeleteCategory translations={translations} category={category} />
       </div>
     </li>
   );
