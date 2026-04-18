@@ -14,7 +14,9 @@ const AdminTabs = () => {
   const isActiveTab = (href: string) => {
     const hrefArray = href.split("/");
 
-    return hrefArray.length > 1 ? pathname.startsWith(href) : pathname === href;
+    return hrefArray.length === 2
+      ? pathname === href
+      : pathname.startsWith(href);
   };
 
   return (
