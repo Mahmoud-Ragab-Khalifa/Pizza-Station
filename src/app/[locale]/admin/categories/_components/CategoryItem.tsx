@@ -1,6 +1,12 @@
 import { Category } from "@prisma/client";
+import EditCategory from "./EditCategory";
+import { getLocale } from "next-intl/server";
+import { getAppTranslations } from "@/lib/getAppTranslations";
 
-const CategoryItem = ({ category }: { category: Category }) => {
+const CategoryItem = async ({ category }: { category: Category }) => {
+  const locale = await getLocale();
+  const translations = await getAppTranslations(locale);
+
   return (
     <li className="card flex justify-between items-center">
       <h3 className="text-primary font-semibold text-lg flex-1">
@@ -8,7 +14,8 @@ const CategoryItem = ({ category }: { category: Category }) => {
       </h3>
 
       <div className="flex items-center gap-2">
-        <span>Edit</span>
+        <EditCategory translations={translations} category={category} />
+
         <span>Delete</span>
       </div>
     </li>
