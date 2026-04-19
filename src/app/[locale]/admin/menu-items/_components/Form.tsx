@@ -9,8 +9,9 @@ import { Translations } from "@/types/translations";
 import { useState } from "react";
 import SelectCategory from "./SelectCategory";
 import UploadImage from "./UploadImage";
-import { Category, Size } from "@prisma/client";
+import { Category, Extra, Size } from "@prisma/client";
 import AddSize from "./AddSize";
+import AddExtras from "./AddExtras";
 
 const Form = ({
   translations,
@@ -24,6 +25,8 @@ const Form = ({
   const [categoryId, setCategoryId] = useState(categories[0].id);
 
   const [sizes, setSizes] = useState<Partial<Size>[]>([]);
+
+  const [extras, setExtras] = useState<Partial<Extra>[]>([]);
 
   const { getFormFields } = useFormFields({
     slug: `${Routes.ADMIN}${Pages.MENU_ITEMS}`,
@@ -53,6 +56,12 @@ const Form = ({
           translations={translations}
           sizes={sizes}
           setSizes={setSizes}
+        />
+
+        <AddExtras
+          translations={translations}
+          extras={extras}
+          setExtras={setExtras}
         />
 
         <FormActions translations={translations} />

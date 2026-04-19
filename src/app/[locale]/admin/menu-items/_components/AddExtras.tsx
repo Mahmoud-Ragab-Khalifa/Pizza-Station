@@ -8,27 +8,27 @@ import {
 } from "@/components/ui/accordion";
 import ItemOptions, { ItemOptionsKeys } from "./ItemOptions";
 import { Translations } from "@/types/translations";
-import { Size } from "@prisma/client";
+import { Extra } from "@prisma/client";
 
-const AddSize = ({
+const AddExtras = ({
   translations,
-  sizes,
-  setSizes,
+  extras,
+  setExtras,
 }: {
   translations: Translations;
-  sizes: Partial<Size>[];
-  setSizes: React.Dispatch<React.SetStateAction<Partial<Size>[]>>;
+  extras: Partial<Extra>[];
+  setExtras: React.Dispatch<React.SetStateAction<Partial<Extra>[]>>;
 }) => {
   return (
     <Accordion type="single" collapsible className="w-full" draggable>
       <AccordionItem value="item-1">
-        <AccordionTrigger>{translations.sizes}</AccordionTrigger>
+        <AccordionTrigger>{translations.extrasIngredients}</AccordionTrigger>
         <AccordionContent className="">
           <ItemOptions
-            optionKey={ItemOptionsKeys.SIZES}
+            optionKey={ItemOptionsKeys.EXTRAS}
             translations={translations}
-            state={sizes}
-            setState={setSizes}
+            state={extras}
+            setState={setExtras}
           />
         </AccordionContent>
       </AccordionItem>
@@ -36,4 +36,4 @@ const AddSize = ({
   );
 };
 
-export default AddSize;
+export default AddExtras;
