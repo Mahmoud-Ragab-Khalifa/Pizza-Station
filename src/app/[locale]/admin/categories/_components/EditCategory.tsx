@@ -94,7 +94,7 @@ const EditCategory = ({
             />
 
             {state.error?.categoryName && (
-              <p className="text-sm text-destructive absolute top-12">
+              <p className="text-sm text-destructive">
                 {state.error?.categoryName}
               </p>
             )}
