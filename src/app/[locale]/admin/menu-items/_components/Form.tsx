@@ -1,7 +1,7 @@
 "use client";
 
 import FormFields from "@/components/FormFields/FormFields";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Pages, Routes } from "@/constants/enums";
 import useFormFields from "@/hooks/useFormFields";
 import { IFormField } from "@/types/app";
@@ -12,6 +12,7 @@ import UploadImage from "./UploadImage";
 import { Category, Extra, Size } from "@prisma/client";
 import AddSize from "./AddSize";
 import AddExtras from "./AddExtras";
+import Link from "@/components/Link";
 
 const Form = ({
   translations,
@@ -74,8 +75,17 @@ export default Form;
 
 const FormActions = ({ translations }: { translations: Translations }) => {
   return (
-    <Button type="submit" className="w-full rounded-lg">
-      {translations.create}
-    </Button>
+    <>
+      <Button type="submit" className="w-full rounded-lg">
+        {translations.create}
+      </Button>
+
+      <Link
+        href={`${Routes.ADMIN}${Pages.MENU_ITEMS}`}
+        className={`${buttonVariants({ variant: "outline" })} w-full rounded-lg -mt-2`}
+      >
+        {translations.cancel}
+      </Link>
+    </>
   );
 };
