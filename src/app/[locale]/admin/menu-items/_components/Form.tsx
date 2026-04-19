@@ -9,7 +9,8 @@ import { Translations } from "@/types/translations";
 import { useState } from "react";
 import SelectCategory from "./SelectCategory";
 import UploadImage from "./UploadImage";
-import { Category } from "@prisma/client";
+import { Category, Size } from "@prisma/client";
+import AddSize from "./AddSize";
 
 const Form = ({
   translations,
@@ -21,6 +22,8 @@ const Form = ({
   const [selectedImage, setSelectedImage] = useState("");
 
   const [categoryId, setCategoryId] = useState(categories[0].id);
+
+  const [sizes, setSizes] = useState<Partial<Size>[]>([]);
 
   const { getFormFields } = useFormFields({
     slug: `${Routes.ADMIN}${Pages.MENU_ITEMS}`,
@@ -39,14 +42,18 @@ const Form = ({
           return <FormFields key={field.name} {...field} error={{}} />;
         })}
 
-        <div className="grid grid-cols-2 gap-4">
-          <SelectCategory
-            translations={translations}
-            categories={categories}
-            categoryId={categoryId}
-            setCategoryId={setCategoryId}
-          />
-        </div>
+        <SelectCategory
+          translations={translations}
+          categories={categories}
+          categoryId={categoryId}
+          setCategoryId={setCategoryId}
+        />
+
+        <AddSize
+          translations={translations}
+          sizes={sizes}
+          setSizes={setSizes}
+        />
 
         <FormActions translations={translations} />
       </div>
