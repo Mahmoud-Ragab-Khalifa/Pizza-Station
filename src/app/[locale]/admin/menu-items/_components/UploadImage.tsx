@@ -22,13 +22,15 @@ const UploadImage = ({
 
   return (
     <div className="group mx-auto md:mx-0 relative w-50 h-50 overflow-hidden rounded-full">
-      {/* <Image
-        src={selectedImage}
-        alt={"Add Product Image"}
-        width={200}
-        height={200}
-        className="rounded-full w-50 h-50 object-cover"
-      /> */}
+      {selectedImage && (
+        <Image
+          src={selectedImage}
+          alt={"Add Product Image"}
+          width={200}
+          height={200}
+          className="rounded-full w-50 h-50 object-cover"
+        />
+      )}
 
       <div
         className={`${selectedImage ? "group-hover:opacity-100 opacity-0 transition-opacity duration-200" : ""} absolute top-0 left-0 w-full h-full bg-card/50`}
