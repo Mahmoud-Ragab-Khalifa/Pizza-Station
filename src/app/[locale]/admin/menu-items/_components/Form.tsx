@@ -14,7 +14,7 @@ import AddSize from "./AddSize";
 import AddExtras from "./AddExtras";
 import Link from "@/components/Link";
 import { ValidationErrors } from "@/validations/auth";
-import { addProduct, deleteProduct } from "../_actions/product";
+import { addProduct, deleteProduct, updateProduct } from "../_actions/product";
 import Loader from "@/components/Loader";
 import { toast } from "sonner";
 import { ProductWithRelations } from "@/types/product";
@@ -70,7 +70,9 @@ const Form = ({
   };
 
   const [state, action, pending] = useActionState(
-    addProduct.bind(null, { categoryId }),
+    product
+      ? updateProduct.bind(null, { id: product.id, options: { sizes, extras } })
+      : addProduct.bind(null, { categoryId, options: { sizes, extras } }),
     initialState,
   );
 
