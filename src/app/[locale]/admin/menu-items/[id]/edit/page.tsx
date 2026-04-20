@@ -1,7 +1,10 @@
 import { Pages, Routes } from "@/constants/enums";
+import { getAppTranslations } from "@/lib/getAppTranslations";
+import { getCategories } from "@/server/db/categories";
 import { getProduct, getProducts } from "@/server/db/products";
 import { Locale } from "next-intl";
 import { redirect } from "next/navigation";
+import Form from "../../_components/Form";
 
 export async function generateStaticParams() {
   const products = await getProducts();
@@ -23,10 +26,19 @@ const EditProductPage = async ({
     redirect(`/${locale}${Routes.ADMIN}${Pages.MENU_ITEMS}`);
   }
 
+  const categories = await getCategories();
+  const translations = await getAppTranslations(locale);
+
   return (
     <main>
       <section className="section-gap">
-        <div className="container">Edit</div>
+        <div className="container">
+          <Form
+            categories={categories}
+            translations={translations}
+            product={product}
+          />
+        </div>
       </section>
     </main>
   );

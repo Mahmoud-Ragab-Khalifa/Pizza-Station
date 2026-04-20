@@ -91,3 +91,31 @@ const getImageUrl = async (imageFile: File) => {
     console.error("Error uploading file to Cloudinary:", error);
   }
 };
+
+export const deleteProduct = async (id: string) => {
+  const locale = await getLocale();
+  const translations = await getAppTranslations(locale);
+
+  try {
+    await db.product.delete({ where: { id } });
+
+    revalidatePath(`/${locale}`);
+    revalidatePath(`/${locale}${Routes.MENU}`);
+    revalidatePath(`/${locale}${Routes.ADMIN}${Pages.MENU_ITEMS}`);
+    revalidatePath(
+      `/${locale}${Routes.ADMIN}${Pages.MENU_ITEMS}/${id}${Pages.EDIT}`,
+    );
+
+    return {
+      message: translations.messages.deleteProductSucess,
+      status: 200,
+    };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      message: translations.messages.unexpectedError,
+      status: 500,
+    };
+  }
+};

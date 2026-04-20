@@ -14,24 +14,35 @@ import AddSize from "./AddSize";
 import AddExtras from "./AddExtras";
 import Link from "@/components/Link";
 import { ValidationErrors } from "@/validations/auth";
-import { addProduct } from "../_actions/product";
+import { addProduct, deleteProduct } from "../_actions/product";
 import Loader from "@/components/Loader";
 import { toast } from "sonner";
+import { ProductWithRelations } from "@/types/product";
 
 const Form = ({
   translations,
   categories,
+  product,
 }: {
   translations: Translations;
   categories: Category[];
+  product?: ProductWithRelations;
 }) => {
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState(
+    product ? product.image : "",
+  );
 
-  const [categoryId, setCategoryId] = useState(categories[0].id);
+  const [categoryId, setCategoryId] = useState(
+    product ? product.categoryId : categories[0].id,
+  );
 
-  const [sizes, setSizes] = useState<Partial<Size>[]>([]);
+  const [sizes, setSizes] = useState<Partial<Size>[]>(
+    product ? product.sizes : [],
+  );
 
-  const [extras, setExtras] = useState<Partial<Extra>[]>([]);
+  const [extras, setExtras] = useState<Partial<Extra>[]>(
+    product ? product.extras : [],
+  );
 
   const { getFormFields } = useFormFields({
     slug: `${Routes.ADMIN}${Pages.MENU_ITEMS}`,
@@ -40,7 +51,7 @@ const Form = ({
 
   const formData = new FormData();
 
-  Object.entries({}).forEach(([Key, value]) => {
+  Object.entries(product ?? {}).forEach(([Key, value]) => {
     if (value !== null && value !== undefined && Key !== "image") {
       formData.append(Key, value.toString());
     }
@@ -90,7 +101,17 @@ const Form = ({
 
       <div className="flex-1 card grid gap-6">
         {getFormFields().map((field: IFormField) => {
-          return <FormFields key={field.name} {...field} error={state.error} />;
+          const fieldValue =
+            state.formData?.get(field.name) ?? formData.get(field.name);
+
+          return (
+            <FormFields
+              key={field.name}
+              {...field}
+              error={state.error}
+              defaultValue={fieldValue as string}
+            />
+          );
         })}
 
         <SelectCategory
@@ -112,7 +133,11 @@ const Form = ({
           setExtras={setExtras}
         />
 
-        <FormActions translations={translations} pending={pending} />
+        <FormActions
+          translations={translations}
+          pending={pending}
+          product={product}
+        />
       </div>
     </form>
   );
@@ -123,15 +148,63 @@ export default Form;
 const FormActions = ({
   translations,
   pending,
+  product,
 }: {
   translations: Translations;
   pending: boolean;
+  product?: ProductWithRelations;
 }) => {
+  const [state, setState] = useState<{
+    pending: boolean;
+    status: null | number;
+    message: string;
+  }>({
+    pending: false,
+    status: null,
+    message: "",
+  });
+
+  const handleDelete = async (id: string) => {
+    try {
+      setState((prev) => ({ ...prev, pending: true }));
+
+      const res = await deleteProduct(id);
+
+      setState((prev) => ({
+        ...prev,
+        status: res.status,
+        message: res.message,
+      }));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setState((prev) => ({ ...prev, pending: false }));
+    }
+  };
+
   return (
     <>
       <Button type="submit" className="w-full rounded-lg" disabled={pending}>
-        {pending ? <Loader /> : translations.create}
+        {pending ? (
+          <Loader />
+        ) : product ? (
+          translations.save
+        ) : (
+          translations.create
+        )}
       </Button>
+
+      {product && (
+        <Button
+          type="button"
+          variant={"destructive"}
+          className="w-full rounded-lg -mt-2"
+          disabled={state.pending}
+          onClick={() => handleDelete(product.id)}
+        >
+          {state.pending ? <Loader /> : translations.delete}
+        </Button>
+      )}
 
       <Link
         href={`${Routes.ADMIN}${Pages.MENU_ITEMS}`}
