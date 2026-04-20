@@ -4,10 +4,14 @@ import { Languages, Pages, Routes } from "@/constants/enums";
 import { getAppTranslations } from "@/lib/getAppTranslations";
 import { ArrowRightCircle } from "lucide-react";
 import { getLocale } from "next-intl/server";
+import MenuItems from "./_components/MenuItems";
+import { getProducts } from "@/server/db/products";
 
 const MnueItemsPage = async () => {
   const locale = await getLocale();
   const translations = await getAppTranslations(locale);
+
+  const products = await getProducts();
 
   return (
     <main>
@@ -23,6 +27,8 @@ const MnueItemsPage = async () => {
               className={`${locale === Languages.ARABIC ? "rotate-180" : "rotate-0"} animate-pulse group-hover:text-primary transition-colors duration-300 group-hover:animate-bounce`}
             />
           </Link>
+
+          <MenuItems products={products} translations={translations} />
         </div>
       </section>
     </main>
