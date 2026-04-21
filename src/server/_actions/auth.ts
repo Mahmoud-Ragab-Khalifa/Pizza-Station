@@ -6,6 +6,8 @@ import bcrypt from "bcrypt";
 import { getAppTranslations } from "@/lib/getAppTranslations";
 import { Locale } from "next-intl";
 import { getLocale } from "next-intl/server";
+import { revalidatePath } from "next/cache";
+import { Pages, Routes } from "@/constants/enums";
 
 export const login = async (
   credentials: Record<"email" | "password", string> | undefined,
@@ -104,6 +106,11 @@ export const signup = async (prevState: unknown, formData: FormData) => {
         password: hashedPassword,
       },
     });
+
+    revalidatePath(`/${locale}${Routes.ADMIN}${Pages.USERS}`);
+    revalidatePath(
+      `/${locale}${Routes.ADMIN}${Pages.USERS}/${createdUser.id}${Pages.EDIT}`,
+    );
 
     return {
       status: 201,
