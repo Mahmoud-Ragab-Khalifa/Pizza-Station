@@ -15,13 +15,17 @@ const UsersPage = async () => {
           {users.map((user) => (
             <div
               key={user.id}
-              className="card flex justify-between items-center"
+              className="card flex flex-col gap-3 sm:gap-0 sm:flex-row sm:items-center"
             >
-              <h3 className="text-primary font-medium">{user.name}</h3>
+              <div className="flex-1 grid gap-0.5 md:grid-cols-2 md:gap-0">
+                <h3 className="text-primary font-medium line-clamp-1">
+                  {user.name}
+                </h3>
 
-              <p className="text-sm text-accent">{user.email}</p>
+                <p className="text-sm text-accent line-clamp-1">{user.email}</p>
+              </div>
 
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2.5 justify-end sm:justify-start">
                 <Link
                   href={`${Routes.ADMIN}${Pages.USERS}/${user.id}${Pages.EDIT}`}
                   className={`${buttonVariants({ variant: "outline", size: "icon" })}`}
