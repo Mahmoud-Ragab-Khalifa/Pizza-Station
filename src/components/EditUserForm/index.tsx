@@ -15,6 +15,7 @@ import { updateProfile } from "./_actions/profile";
 import Loader from "../Loader";
 import { CameraIcon } from "lucide-react";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 const EditUserForm = ({
   translations,
@@ -72,6 +73,8 @@ const EditUserForm = ({
     setSelectedImage(user.image as string);
   }, [user.image]);
 
+  const session = useSession();
+
   return (
     <form className="flex flex-col md:flex-row gap-10" action={action}>
       <div className="group relative w-50 h-50 overflow-hidden rounded-full mx-auto">
@@ -112,7 +115,7 @@ const EditUserForm = ({
           );
         })}
 
-        {user.role === UserRole.ADMIN && (
+        {session.data?.user.role === UserRole.ADMIN && (
           <Checkbox
             name="admin"
             label="Admin"
