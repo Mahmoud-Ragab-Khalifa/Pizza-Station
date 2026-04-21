@@ -59,9 +59,13 @@ const EditUserForm = ({
 
   useEffect(() => {
     if (state.message && state.status && !pending) {
-      toast(state?.message, { position: "top-center" });
+      if (state.status === 200) {
+        toast.success(state.message, { position: "top-center" });
+      } else {
+        toast.error(state.message, { position: "top-center" });
+      }
     }
-  }, [pending, state?.message, state.status]);
+  });
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
