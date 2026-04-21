@@ -19,7 +19,7 @@ const NewMenuItemPage = async () => {
     <main>
       <section className="section-gap">
         <div className="container">
-          <Form translations={translations} categories={categories} />
+          {/* <Form translations={translations} categories={categories} /> */}
         </div>
       </section>
     </main>

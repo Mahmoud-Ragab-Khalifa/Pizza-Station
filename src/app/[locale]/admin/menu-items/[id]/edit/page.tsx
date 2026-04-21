@@ -33,11 +33,11 @@ const EditProductPage = async ({
     <main>
       <section className="section-gap">
         <div className="container">
-          <Form
+          {/* <Form
             categories={categories}
             translations={translations}
             product={product}
-          />
+          /> */}
         </div>
       </section>
     </main>
