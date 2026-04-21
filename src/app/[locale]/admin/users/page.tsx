@@ -1,8 +1,9 @@
 import Link from "@/components/Link";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Pages, Routes } from "@/constants/enums";
 import { getUsers } from "@/server/db/users";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit } from "lucide-react";
+import DeleteUserButton from "./_components/DeleteUserButton";
 
 const UsersPage = async () => {
   const users = await getUsers();
@@ -28,9 +29,7 @@ const UsersPage = async () => {
                   <Edit />
                 </Link>
 
-                <Button variant={"destructive"} size={"icon"}>
-                  <Trash2 />
-                </Button>
+                <DeleteUserButton userId={user.id} />
               </div>
             </div>
           ))}
