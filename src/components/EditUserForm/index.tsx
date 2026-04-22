@@ -4,17 +4,18 @@ import { InputTypes, Routes, UserRole } from "@/constants/enums";
 import useFormFields from "@/hooks/useFormFields";
 import { IFormField } from "@/types/app";
 import { Translations } from "@/types/translations";
-import { Session } from "next-auth";
 import Image from "next/image";
 import FormFields from "../FormFields/FormFields";
 import { Button } from "../ui/button";
-import Checkbox from "../FormFields/Checkbox";
 import { useActionState, useEffect, useState } from "react";
 import { ValidationErrors } from "@/validations/auth";
 import { updateProfile } from "./_actions/profile";
 import Loader from "../Loader";
 import { CameraIcon } from "lucide-react";
 import { toast } from "sonner";
+import { Checkbox } from "../ui/checkbox";
+import { Label } from "../ui/label";
+import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 
 const EditUserForm = ({
@@ -116,12 +117,18 @@ const EditUserForm = ({
         })}
 
         {session.data?.user.role === UserRole.ADMIN && (
-          <Checkbox
-            name="admin"
-            label="Admin"
-            checked={isAdmin}
-            onClick={() => setIsAdmin(!isAdmin)}
-          />
+          <div className="flex items-center gap-2">
+            <Label htmlFor="check" className="cursor-pointer!">
+              Admin
+            </Label>
+
+            <Checkbox
+              id="check"
+              name="admin"
+              checked={isAdmin}
+              onClick={() => setIsAdmin(!isAdmin)}
+            />
+          </div>
         )}
 
         <Button type="submit" className="w-full rounded-lg" disabled={pending}>
