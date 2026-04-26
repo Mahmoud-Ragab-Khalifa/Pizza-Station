@@ -4,7 +4,7 @@ import { getCategories } from "@/server/db/categories";
 import { getProduct, getProducts } from "@/server/db/products";
 import { Locale } from "next-intl";
 import { redirect } from "next/navigation";
-import Form from "../../_components/AddMenuItemForm";
+import UpdateMenuItemForm from "../../_components/UpdateMenuItemForm";
 
 export async function generateStaticParams() {
   const products = await getProducts();
@@ -33,11 +33,11 @@ const EditProductPage = async ({
     <main>
       <section className="section-gap">
         <div className="container">
-          {/* <Form
+          <UpdateMenuItemForm
             categories={categories}
             translations={translations}
             product={product}
-          /> */}
+          />
         </div>
       </section>
     </main>
