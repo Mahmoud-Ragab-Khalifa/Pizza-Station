@@ -4,7 +4,7 @@ import { getCategories } from "@/server/db/categories";
 import { getProduct, getProducts } from "@/server/db/products";
 import { Locale } from "next-intl";
 import { redirect } from "next/navigation";
-import Form from "../../_components/Form";
+import Form from "../../_components/AddMenuItemForm";
 
 export async function generateStaticParams() {
   const products = await getProducts();

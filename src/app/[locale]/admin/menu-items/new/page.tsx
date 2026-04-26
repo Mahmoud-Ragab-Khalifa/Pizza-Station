@@ -1,5 +1,5 @@
 import { getLocale } from "next-intl/server";
-import Form from "../_components/Form";
+import AddMenuItemForm from "../_components/AddMenuItemForm";
 import { getAppTranslations } from "@/lib/getAppTranslations";
 import { getCategories } from "@/server/db/categories";
 import { redirect } from "next/navigation";
@@ -19,7 +19,10 @@ const NewMenuItemPage = async () => {
     <main>
       <section className="section-gap">
         <div className="container">
-          {/* <Form translations={translations} categories={categories} /> */}
+          <AddMenuItemForm
+            translations={translations}
+            categories={categories}
+          />
         </div>
       </section>
     </main>

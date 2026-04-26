@@ -3,7 +3,7 @@
 import { Pages, Routes } from "@/constants/enums";
 import { getAppTranslations } from "@/lib/getAppTranslations";
 import { db } from "@/lib/prisma";
-import { addProductSchema, updateProductSchema } from "@/validations/product";
+import { addProductSchema } from "@/validations/product";
 import { Extra, ProductExtras, ProductSizes, Size } from "@prisma/client";
 import { getLocale } from "next-intl/server";
 import { revalidatePath } from "next/cache";
@@ -146,99 +146,99 @@ export const deleteProduct = async (id: string) => {
   }
 };
 
-export const updateProduct = async (
-  args: {
-    id: string;
-    options: { sizes: Partial<Size>[]; extras: Partial<Extra>[] };
-  },
-  prevState: unknown,
-  formData: FormData,
-) => {
-  const locale = await getLocale();
-  const translations = await getAppTranslations(locale);
+// export const updateProduct = async (
+//   args: {
+//     id: string;
+//     options: { sizes: Partial<Size>[]; extras: Partial<Extra>[] };
+//   },
+//   prevState: unknown,
+//   formData: FormData,
+// ) => {
+//   const locale = await getLocale();
+//   const translations = await getAppTranslations(locale);
 
-  const result = updateProductSchema(translations).safeParse(
-    Object.fromEntries(formData.entries()),
-  );
+//   const result = updateProductSchema(translations).safeParse(
+//     Object.fromEntries(formData.entries()),
+//   );
 
-  if (result.success === false) {
-    return {
-      error: result.error.formErrors.fieldErrors,
-      status: 400,
-      formData,
-    };
-  }
+//   if (result.success === false) {
+//     return {
+//       error: result.error.formErrors.fieldErrors,
+//       status: 400,
+//       formData,
+//     };
+//   }
 
-  const data = result.data;
+//   const data = result.data;
 
-  const basePrice = Number(data.basePrice);
+//   const basePrice = Number(data.basePrice);
 
-  const imageFile = data.image as File;
+//   const imageFile = data.image as File;
 
-  const imageUrl = Boolean(imageFile.size)
-    ? await getImageUrl(imageFile)
-    : undefined;
+//   const imageUrl = Boolean(imageFile.size)
+//     ? await getImageUrl(imageFile)
+//     : undefined;
 
-  const product = await db.product.findUnique({ where: { id: args.id } });
+//   const product = await db.product.findUnique({ where: { id: args.id } });
 
-  if (!product) {
-    return {
-      error: translations.messages.unexpectedError,
-      status: 400,
-    };
-  }
+//   if (!product) {
+//     return {
+//       error: translations.messages.unexpectedError,
+//       status: 400,
+//     };
+//   }
 
-  try {
-    const updatedProduct = await db.product.update({
-      where: { id: args.id },
-      data: {
-        ...data,
-        image: imageUrl ?? product.image,
-        basePrice,
-      },
-    });
+//   try {
+//     const updatedProduct = await db.product.update({
+//       where: { id: args.id },
+//       data: {
+//         ...data,
+//         image: imageUrl ?? product.image,
+//         basePrice,
+//       },
+//     });
 
-    await db.size.deleteMany({
-      where: { productId: args.id },
-    });
+//     await db.size.deleteMany({
+//       where: { productId: args.id },
+//     });
 
-    await db.size.createMany({
-      data: args.options.sizes.map((size) => ({
-        productId: args.id,
-        name: size.name as ProductSizes,
-        price: Number(size.price),
-      })),
-    });
+//     await db.size.createMany({
+//       data: args.options.sizes.map((size) => ({
+//         productId: args.id,
+//         name: size.name as ProductSizes,
+//         price: Number(size.price),
+//       })),
+//     });
 
-    await db.extra.deleteMany({
-      where: { productId: args.id },
-    });
+//     await db.extra.deleteMany({
+//       where: { productId: args.id },
+//     });
 
-    await db.extra.createMany({
-      data: args.options.extras.map((extra) => ({
-        productId: args.id,
-        name: extra.name as ProductExtras,
-        price: Number(extra.price),
-      })),
-    });
+//     await db.extra.createMany({
+//       data: args.options.extras.map((extra) => ({
+//         productId: args.id,
+//         name: extra.name as ProductExtras,
+//         price: Number(extra.price),
+//       })),
+//     });
 
-    revalidatePath(`/${locale}`);
-    revalidatePath(`/${locale}${Routes.MENU}`);
-    revalidatePath(`/${locale}${Routes.ADMIN}${Pages.MENU_ITEMS}`);
-    revalidatePath(
-      `/${locale}${Routes.ADMIN}${Pages.MENU_ITEMS}/${updatedProduct.id}${Pages.EDIT}`,
-    );
+//     revalidatePath(`/${locale}`);
+//     revalidatePath(`/${locale}${Routes.MENU}`);
+//     revalidatePath(`/${locale}${Routes.ADMIN}${Pages.MENU_ITEMS}`);
+//     revalidatePath(
+//       `/${locale}${Routes.ADMIN}${Pages.MENU_ITEMS}/${updatedProduct.id}${Pages.EDIT}`,
+//     );
 
-    return {
-      message: translations.messages.updateProductSucess,
-      status: 201,
-    };
-  } catch (error) {
-    console.error(error);
+//     return {
+//       message: translations.messages.updateProductSucess,
+//       status: 201,
+//     };
+//   } catch (error) {
+//     console.error(error);
 
-    return {
-      message: translations.messages.unexpectedError,
-      status: 500,
-    };
-  }
-};
+//     return {
+//       message: translations.messages.unexpectedError,
+//       status: 500,
+//     };
+//   }
+// };
