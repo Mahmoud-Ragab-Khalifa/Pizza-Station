@@ -1,16 +1,10 @@
 import { Pages, Routes } from "@/constants/enums";
 import { getAppTranslations } from "@/lib/getAppTranslations";
 import { getCategories } from "@/server/db/categories";
-import { getProduct, getProducts } from "@/server/db/products";
+import { getProduct } from "@/server/db/products";
 import { Locale } from "next-intl";
 import { redirect } from "next/navigation";
 import UpdateMenuItemForm from "../../_components/UpdateMenuItemForm";
-
-export async function generateStaticParams() {
-  const products = await getProducts();
-
-  return products.map((product) => ({ id: product.id }));
-}
 
 const EditProductPage = async ({
   params,

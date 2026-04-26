@@ -1,15 +1,9 @@
 import EditUserForm from "@/components/EditUserForm";
 import { Pages, Routes } from "@/constants/enums";
 import { getAppTranslations } from "@/lib/getAppTranslations";
-import { getUser, getUsers } from "@/server/db/users";
+import { getUser } from "@/server/db/users";
 import { Locale } from "next-intl";
 import { redirect } from "next/navigation";
-
-export async function generateStaticParams() {
-  const users = await getUsers();
-
-  return users.map((user) => ({ userId: user.id }));
-}
 
 const EditUserPage = async ({
   params,
